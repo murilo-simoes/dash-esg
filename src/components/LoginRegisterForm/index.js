@@ -6,6 +6,7 @@ import {UserInfo} from "../../context/context";
 import { useRouter } from "next/router";
 import axios from 'axios';
 import { redirect } from 'next/dist/server/api-utils';
+import { api } from '@/api/axios';
 
 const LoginRegisterForm = ({tipoForm}) => {
 
@@ -53,7 +54,7 @@ const LoginRegisterForm = ({tipoForm}) => {
         }
 
         try{
-            const request = await axios.post('http://localhost:8000/user/add', {
+            const request = await api.post('/user/add', {
                 "name": nome,
                 "email":email,
                 "password":password
@@ -84,7 +85,7 @@ const LoginRegisterForm = ({tipoForm}) => {
         }
 
         try{
-            const request = await axios.post('http://localhost:8000/user/login', {
+            const request = await api.post('/user/login', {
                 "email":email,
                 "password":password
             })
@@ -123,7 +124,7 @@ const LoginRegisterForm = ({tipoForm}) => {
                 <div className={styles.divLabel}>
                 <button className={styles.formButton}>{tipoForm === 1 ? "Entrar" : "Cadastre-se"}</button> 
                 </div>
-                <label className={styles.lbl1}>{tipoForm === 1 ? "Não possui uma conta?" : "Ja possui uma conta?"} </label>
+                <label className={styles.lbl1}>{tipoForm === 1 ? "Não possui uma conta?" : "Já possui uma conta?"} </label>
                 <Link href={tipoForm === 1 ? "/register" : "/login"} className={styles.lbl2}>{tipoForm === 1 ? "Cadastre-se" : "Entrar"}</Link>
             </div>
           </form>
