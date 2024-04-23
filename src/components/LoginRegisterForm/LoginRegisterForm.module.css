@@ -81,7 +81,15 @@
     margin-bottom: 1.5rem;
     font-size: 1rem;
     transition: 0.1s all ease-in;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
+
+
+
 
 .divLabel{
     width: 100%;

@@ -1,19 +1,23 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import styles from './LoginRegisterForm.module.css'; // Importe o CSS usando CSS Modules
 import {toast } from 'react-toastify';
 import Link from 'next/link';
-import {UserInfo} from "../../context/context";
 import { useRouter } from "next/router";
-import axios from 'axios';
-import { redirect } from 'next/dist/server/api-utils';
 import { api } from '@/api/axios';
+import ReactLoading from 'react-loading';
+import Loading from '../Loading/Loading';
 
 const LoginRegisterForm = ({tipoForm}) => {
-
-    const {user, setUser } = useContext(UserInfo);
-
     const router = useRouter();
-
+    let user;
+    if (typeof window !== "undefined") {
+      user = JSON.parse(localStorage.getItem("user")) || undefined
+      
+      if(user){
+        router.push('/')
+      }
+    }
+    const [loading, setLoading] = useState(false);
     const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -21,6 +25,7 @@ const LoginRegisterForm = ({tipoForm}) => {
     const notifySuccess = (text) => toast.success(text);
     const notifyError = (text) => toast.error(text);
     const notifyWarn = (text) => toast.warn(text);
+
 
 
     function cleanInputs(){
@@ -53,20 +58,21 @@ const LoginRegisterForm = ({tipoForm}) => {
             return notifyWarn("As senhas inseridas devem ser iguais!")
         }
 
-        try{
-            const request = await api.post('/user/add', {
-                "name": nome,
-                "email":email,
-                "password":password
-            })
-
+        setLoading(true)
+        await api.post('/user/add', {
+            "name": nome,
+            "email":email,
+            "password":password
+        }).then((res) => {
             cleanInputs()
-            setUser(request.data)
+            localStorage.setItem("user", JSON.stringify(res.data));
             notifySuccess("Usuário cadastrado com sucesso!")
-        }catch(err){
-            notifyError(err.response.data.message);
-        }
-    
+            router.push('/')
+        }).catch((err) => {
+            console.log(err)
+        }).finally(() => {
+            setLoading(false)
+        })
 
     }
 
@@ -83,21 +89,20 @@ const LoginRegisterForm = ({tipoForm}) => {
         if(password <= 6){
             return notifyWarn("A senha deve conter pelo menos 6 caracteres!")
         }
-
-        try{
-            const request = await api.post('/user/login', {
-                "email":email,
-                "password":password
-            })
-
+        setLoading(true)
+        await api.post('/user/login', {
+            "email":email,
+            "password":password
+        }).then((res) => {
             cleanInputs()
-            setUser(request)
-            console.log(user)
+            localStorage.setItem("user", JSON.stringify(res.data));
             notifySuccess("Login realizado com sucesso!")
-            
-        }catch(err){
-            notifyError(err.response.data.message);
-        }
+            router.push('/')
+        }).catch((err) => {
+            notifyError(err.response.data.message)
+        }).finally(() => {
+            setLoading(false)
+        })
     }
 
     return ( 
@@ -122,7 +127,7 @@ const LoginRegisterForm = ({tipoForm}) => {
 
             <div className={styles.divLabel}>
                 <div className={styles.divLabel}>
-                <button className={styles.formButton}>{tipoForm === 1 ? "Entrar" : "Cadastre-se"}</button> 
+                    <button disabled={ loading === false ? false : true} className={styles.formButton}>{ loading === false ? (tipoForm === 1 ? "Entrar" : "Cadastre-se") : <Loading type={"spin"} color={"#7AA174"}/>}</button> 
                 </div>
                 <label className={styles.lbl1}>{tipoForm === 1 ? "Não possui uma conta?" : "Já possui uma conta?"} </label>
                 <Link href={tipoForm === 1 ? "/register" : "/login"} className={styles.lbl2}>{tipoForm === 1 ? "Cadastre-se" : "Entrar"}</Link>
