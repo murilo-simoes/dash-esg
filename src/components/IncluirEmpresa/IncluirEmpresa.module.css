@@ -1,0 +1,49 @@
+.container{
+    width: 100%;
+    height: calc(100dvh - 6rem);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.titleWrapper{
+    height: auto;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.title{
+    font-size: 1.2rem;
+    color:#49724A;
+    font-weight: bold;
+}
+
+.buttonWrapper{
+    width: 6rem;
+    height: 6rem;
+    border-radius: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2B4E30;
+    transition: 0.2s all ease-in;
+    &:hover{
+        cursor: pointer;
+        box-shadow: 0px 6px 20px 0px #7AA174;
+        transform: scale(1.02);
+        
+    }
+
+}
+
+
+
+.iconButton{
+    font-size: 1.5rem;
+    color:#fff;
+}

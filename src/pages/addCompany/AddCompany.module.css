@@ -1,0 +1,14 @@
+
+.loadingContainer{
+    width: 100%;
+    height: calc(100dvh - 6rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    width: auto;
+    height: calc(100dvh - 6rem);
+}

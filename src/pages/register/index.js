@@ -5,12 +5,10 @@ import LoginRegisterForm from "@/components/LoginRegisterForm";
 const Register = () => {
     const tipoForm = 2
     return ( 
-        <main>
-            <Wrapper>
-                <LoginRegisterContent tipoForm={tipoForm} />
-                <LoginRegisterForm tipoForm={tipoForm}/>
-            </Wrapper>
-        </main>
+        <Wrapper>
+            <LoginRegisterContent tipoForm={tipoForm} />
+            <LoginRegisterForm tipoForm={tipoForm}/>
+        </Wrapper>
      );
 }
  

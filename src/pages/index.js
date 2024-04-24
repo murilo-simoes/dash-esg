@@ -1,7 +1,9 @@
 
-import { redirect } from "next/dist/server/api-utils";
+import Loading from "@/components/Loading/Loading";
+import styles from './index.module.css';
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import IncluirEmpresa from "@/components/IncluirEmpresa";
+
 
 
 export default function Home() {
@@ -17,11 +19,26 @@ export default function Home() {
 
   return (
     <>
-      <main>
-        <h1>
-          Olá {user?.name}
-        </h1>
-      </main>
+    { user ?
+    (user.id_company !== null ?
+    <div>
+      <h1>DASHBOARD</h1>
+    </div>
+    :
+    <div className={styles.containerIncluir}>
+        <IncluirEmpresa/>
+    </div>
+    )
+      : 
+      <div className={styles.loadingContainer}> 
+        <Loading 
+        type="spin" 
+        color="#7AA174"
+        width={"5%"}
+        height={"5%"}
+        />
+      </div>
+      }
     </>
   );
 }

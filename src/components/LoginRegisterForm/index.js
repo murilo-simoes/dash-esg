@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { api } from '@/api/axios';
 import ReactLoading from 'react-loading';
 import Loading from '../Loading/Loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 const LoginRegisterForm = ({tipoForm}) => {
     const router = useRouter();
@@ -22,6 +24,10 @@ const LoginRegisterForm = ({tipoForm}) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [showPassword2, setShowPassword2] = useState(false)
+    const [classShadow, setClassShadow] = useState(false)
+    const [classShadow2, setClassShadow2] = useState(false)
     const notifySuccess = (text) => toast.success(text);
     const notifyError = (text) => toast.error(text);
     const notifyWarn = (text) => toast.warn(text);
@@ -69,7 +75,7 @@ const LoginRegisterForm = ({tipoForm}) => {
             notifySuccess("Usuário cadastrado com sucesso!")
             router.push('/')
         }).catch((err) => {
-            console.log(err)
+            notifyError(err.response.data.message)
         }).finally(() => {
             setLoading(false)
         })
@@ -93,11 +99,11 @@ const LoginRegisterForm = ({tipoForm}) => {
         await api.post('/user/login', {
             "email":email,
             "password":password
-        }).then((res) => {
+        }).then(async (res) => {
             cleanInputs()
             localStorage.setItem("user", JSON.stringify(res.data));
             notifySuccess("Login realizado com sucesso!")
-            router.push('/')
+            await router.push('/')
         }).catch((err) => {
             notifyError(err.response.data.message)
         }).finally(() => {
@@ -106,7 +112,7 @@ const LoginRegisterForm = ({tipoForm}) => {
     }
 
     return ( 
-        <main className={styles.wrapper}>
+        <div className={styles.wrapper}>
           <form onSubmit={tipoForm === 1 ? handleLoginUser : handleRegisterUser} className={styles.wrapperInputs}>
             <div className={styles.divInputs} style={{display:tipoForm === 1 ? "none" : "flex"}}>
                 <label className={styles.formLabel}>Nome</label>
@@ -118,22 +124,34 @@ const LoginRegisterForm = ({tipoForm}) => {
             </div>
             <div className={styles.divInputs}>
                 <label className={styles.formLabel}>Senha</label>
-                <input onChange={(e) => setPassword(e.target.value)} value={password} className={styles.formInput} type='password' placeholder='Digite a sua senha'/>
+                <div className={classShadow === false ? styles.divInputSenha : styles.divInputSenhaShadow}>
+                    <input onFocus={() => setClassShadow(true)} onBlur={() => setClassShadow(false)} onChange={(e) => setPassword(e.target.value)} value={password} className={styles.formInputSenha} type={showPassword === false ? "password" : "text"} placeholder='Digite a sua senha'/>
+                    <div className={styles.divIconPass}>
+                        <FontAwesomeIcon onClickCapture={() => setShowPassword(showPassword === false ? true : false)} className={styles.iconPass} icon={showPassword === false ? faEyeSlash : faEye} />
+                    </div>
+                </div>
             </div>
             <div className={styles.divInputs} style={{display:tipoForm === 1 ? "none" : "flex"}}>
-                <label className={styles.formLabel}>Confirmar Senha</label>
-                <input onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} className={styles.formInput} type='password' placeholder='Confime a sua senha'/>
+                <label className={styles.formLabel}>Confirmar senha</label>
+                <div className={classShadow2 === false ? styles.divInputSenha : styles.divInputSenhaShadow}>
+                    <input onFocus={() => setClassShadow2(true)} onBlur={() => setClassShadow2(false)} onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} className={styles.formInputSenha} type={showPassword2 === false ? "password" : "text"} placeholder='Confime a sua senha'/>
+                    <div className={styles.divIconPass}>
+                        <FontAwesomeIcon onClickCapture={() => setShowPassword2(showPassword2 === false ? true : false)} className={styles.iconPass} icon={showPassword2 === false ? faEyeSlash : faEye} />
+                    </div>
+                </div>
             </div>
 
             <div className={styles.divLabel}>
                 <div className={styles.divLabel}>
-                    <button disabled={ loading === false ? false : true} className={styles.formButton}>{ loading === false ? (tipoForm === 1 ? "Entrar" : "Cadastre-se") : <Loading type={"spin"} color={"#7AA174"}/>}</button> 
+                    <button disabled={ loading === false ? false : true} className={styles.formButton}>
+                        { loading === false ? (tipoForm === 1 ? "Entrar" : "Cadastre-se") : <Loading width={"15%"} height={"15%"} type={"spin"} color={"#7AA174"}/>}
+                    </button> 
                 </div>
                 <label className={styles.lbl1}>{tipoForm === 1 ? "Não possui uma conta?" : "Já possui uma conta?"} </label>
                 <Link href={tipoForm === 1 ? "/register" : "/login"} className={styles.lbl2}>{tipoForm === 1 ? "Cadastre-se" : "Entrar"}</Link>
             </div>
           </form>
-        </main>
+        </div>
      )
 }
  
