@@ -25,9 +25,7 @@ export default function Home() {
       <h1>DASHBOARD</h1>
     </div>
     :
-    <div className={styles.containerIncluir}>
-        <IncluirEmpresa/>
-    </div>
+      <IncluirEmpresa/>
     )
       : 
       <div className={styles.loadingContainer}> 

@@ -37,7 +37,7 @@ const Menu = ({}) => {
                         </div>
                     </div>
                     <div onClick={handleLogout} className={styles.logout}>
-                        <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.iconPage}/>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.iconPageLogout}/>
                     </div>
                 </div>
             </div>

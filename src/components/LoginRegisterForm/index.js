@@ -127,7 +127,7 @@ const LoginRegisterForm = ({tipoForm}) => {
                 <div className={classShadow === false ? styles.divInputSenha : styles.divInputSenhaShadow}>
                     <input onFocus={() => setClassShadow(true)} onBlur={() => setClassShadow(false)} onChange={(e) => setPassword(e.target.value)} value={password} className={styles.formInputSenha} type={showPassword === false ? "password" : "text"} placeholder='Digite a sua senha'/>
                     <div className={styles.divIconPass}>
-                        <FontAwesomeIcon onClickCapture={() => setShowPassword(showPassword === false ? true : false)} className={styles.iconPass} icon={showPassword === false ? faEyeSlash : faEye} />
+                        <FontAwesomeIcon onClick={() => setShowPassword(showPassword === false ? true : false)} className={styles.iconPass} icon={showPassword === false ? faEyeSlash : faEye} />
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@ const LoginRegisterForm = ({tipoForm}) => {
                 <div className={classShadow2 === false ? styles.divInputSenha : styles.divInputSenhaShadow}>
                     <input onFocus={() => setClassShadow2(true)} onBlur={() => setClassShadow2(false)} onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} className={styles.formInputSenha} type={showPassword2 === false ? "password" : "text"} placeholder='Confime a sua senha'/>
                     <div className={styles.divIconPass}>
-                        <FontAwesomeIcon onClickCapture={() => setShowPassword2(showPassword2 === false ? true : false)} className={styles.iconPass} icon={showPassword2 === false ? faEyeSlash : faEye} />
+                        <FontAwesomeIcon onClick={() => setShowPassword2(showPassword2 === false ? true : false)} className={styles.iconPass} icon={showPassword2 === false ? faEyeSlash : faEye} />
                     </div>
                 </div>
             </div>

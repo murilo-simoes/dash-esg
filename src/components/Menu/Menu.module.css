@@ -1,36 +1,41 @@
 .container{
-    width: 100%;
-    height: 6rem;
+    height: 100dvh;
+    width: 5rem;
+    min-width: 5rem;
 
-    background: linear-gradient(180deg, #26442b 0%, #355e3c 100%);
+    background: linear-gradient(180deg, #445247 0%, #182b1b 100%);
+
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+    flex-direction: column;
 }
 
 .wrapper{
-    width: 95%;
+    height: 95%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column;
  
     
 }
 .pages{
-    width: 4rem;
-    height: 4rem;
-    background-color: #7AA174;
-    border-radius: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: #ffffff;
+    border-radius: 1.3rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 4px 15px 0px #000000;
+    box-shadow: 0px 4px 10px 0px #000000;
     cursor:pointer;
     transition: 0.1s all ease-in;
-    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
 
     &:hover{
-        transform: scale(1.03);
+        transform: scale(1.10);
     }
 }
 
@@ -38,31 +43,36 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .logout{
-    width: 4rem;
-    height: 4rem;
+    width: 3.2rem;
+    height: 3.2rem;
     background-color: #9e0303;
-    border-radius: 1rem;
+    border-radius: 1.3rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 4px 15px 0px #000000;
+    box-shadow: 0px 4px 10px 0px #000000;
     cursor:pointer;
     transition: 0.1s all ease-in;
     
 
     &:hover{
-        transform: scale(1.05);
+        transform: scale(1.10);
     }
 }
 
 
 .iconPage{
     font-size:1.2rem;
-    color: #fff;
+    color: #3b5737;
+    font-weight: bold;
+}
+.iconPageLogout{
+    font-size:1.2rem;
+    color: #eee;
     font-weight: bold;
 }
 
@@ -76,6 +86,7 @@
 }
 
 @media screen and (max-width:400px) {
+
     .pages{
         width: 3.5rem;
         height: 3.5rem;
@@ -86,5 +97,18 @@
     .logout{
         width: 3.5rem;
         height: 3.5rem;
+    }
+}
+
+@media screen and (max-width:1280px) {
+    .pages{
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 1rem;
+    }
+    .logout{
+        border-radius: 1rem;
+        width: 3.2rem;
+        height: 3.2rem;
     }
 }

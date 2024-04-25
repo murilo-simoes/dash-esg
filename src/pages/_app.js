@@ -19,11 +19,11 @@ export default function App({ Component, pageProps, ...appProps }) {
     }
 
     return loaded && (
-          <>
-          <Menu/>
-          <Component {...pageProps} />
-          <ToastContainer theme="dark" />
-          </>
+          <div style={{display:"flex"}}>
+            <Menu/>
+            <Component {...pageProps} />
+            <ToastContainer theme="dark" />
+          </div>
         )
 }
 useEffect(() => {
