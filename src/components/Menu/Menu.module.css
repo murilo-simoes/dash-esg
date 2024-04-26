@@ -61,6 +61,7 @@
     height: 100%;
     vertical-align: middle;
     transition: 0.1s all ease-in;
+    
     &:hover{
         transform: scale(1.05);
     }

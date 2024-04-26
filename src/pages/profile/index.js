@@ -14,23 +14,30 @@ const Profile = () => {
       }
     }
 
+    const renderComponent = () => {
+      if(user){
+        return (
+        <div>
+          <h1>PROFILE</h1>
+        </div>
+        )
+      }else{
+        return(
+          <div className={styles.loadingContainer}> 
+          <Loading 
+          type="spin" 
+          color="#7AA174"
+          width={"5%"}
+          height={"5%"}
+          />
+          </div>  
+        )
+      }
+    }
+
     return ( 
         <>
-        {
-          user ?
-          <div>
-              <h1>PROFILE</h1>
-          </div>
-            : 
-            <div className={styles.loadingContainer}> 
-              <Loading 
-              type="spin" 
-              color="#7AA174"
-              width={"5%"}
-              height={"5%"}
-              />
-            </div>          
-            }
+          {renderComponent()}
         </>
      );
 }
