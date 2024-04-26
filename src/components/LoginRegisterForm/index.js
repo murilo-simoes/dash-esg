@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './LoginRegisterForm.module.css'; // Importe o CSS usando CSS Modules
 import {toast } from 'react-toastify';
 import Link from 'next/link';
@@ -10,6 +10,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 const LoginRegisterForm = ({tipoForm}) => {
+
+    const router = useRouter();
+    
+    let user;
+    if (typeof window !== "undefined") {
+      user = JSON.parse(localStorage.getItem("user")) || undefined
+      
+      if(user){
+        router.push('/')
+      }
+    }
 
     const [loading, setLoading] = useState(false);
     const [nome, setNome] = useState("")
@@ -67,7 +78,9 @@ const LoginRegisterForm = ({tipoForm}) => {
             cleanInputs()
             localStorage.setItem("user", JSON.stringify(res.data));
             notifySuccess("Usuário cadastrado com sucesso!")
-            router.push('/')
+            router.push('/').catch((err) => {
+                notifyError(err)
+            })
         }).catch((err) => {
             notifyError(err.response.data.message)
         }).finally(() => {
@@ -93,11 +106,13 @@ const LoginRegisterForm = ({tipoForm}) => {
         await api.post('/user/login', {
             "email":email,
             "password":password
-        }).then(async (res) => {
+        }).then((res) => {
             cleanInputs()
             localStorage.setItem("user", JSON.stringify(res.data));
             notifySuccess("Login realizado com sucesso!")
-            await router.push('/')
+            router.push('/').catch((err) => {
+                notifyError(err)
+            })
         }).catch((err) => {
             notifyError(err.response.data.message)
         }).finally(() => {
@@ -118,8 +133,8 @@ const LoginRegisterForm = ({tipoForm}) => {
             </div>
             <div className={styles.divInputs} style={{display:tipoForm === 1 ? "none" : "flex"}}>
                 <label className={styles.formLabel}>Tipo de usuário</label>
-                <select value={userType} onChange={(e) => setUserType(e.target.value)} style={{cursor:"pointer"}} className={styles.formInput}>
-                    <option value="" selected disabled hidden>Escolha uma opção</option>
+                <select  value={userType} onChange={(e) => setUserType(e.target.value)} style={{cursor:"pointer"}} className={styles.formInput}>
+                    <option value="" disabled hidden>Escolha uma opção</option>
                     <option value="1">Gerente</option>
                     <option value="2">Funcionário</option>
                 </select>

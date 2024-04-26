@@ -19,7 +19,6 @@ const Menu = ({}) => {
     }
 
     const handleLogout = () => {
-        console.log("ClICOU")
         localStorage.removeItem("user")
         notifySuccess("Sessão finalizada!")
         router.push('/login')

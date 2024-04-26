@@ -26,7 +26,7 @@ const Profile = () => {
                 <InfoUser/>
               </div>
               <div className={styles.separador}>
-                <Separador/>
+                <Separador className="separador"/>
               </div>
               <div className={styles.wrapper}>
                 <InfoCompany/>

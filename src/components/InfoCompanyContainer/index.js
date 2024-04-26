@@ -9,7 +9,7 @@ import Loading from '../Loading/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
-const InfoUserContainer = ({tipoForm}) => {
+const InfoCompanyContainer = ({tipoForm}) => {
 
     let user;
     if (typeof window !== "undefined") {
@@ -71,4 +71,4 @@ const InfoUserContainer = ({tipoForm}) => {
      )
 }
  
-export default InfoUserContainer;
+export default InfoCompanyContainer;
