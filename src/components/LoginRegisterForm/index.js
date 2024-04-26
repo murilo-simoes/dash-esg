@@ -10,20 +10,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 const LoginRegisterForm = ({tipoForm}) => {
-    const router = useRouter();
-    let user;
-    if (typeof window !== "undefined") {
-      user = JSON.parse(localStorage.getItem("user")) || undefined
-      
-      if(user){
-        router.push('/')
-      }
-    }
+
     const [loading, setLoading] = useState(false);
     const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [userType, setUserType] = useState("");
     const [showPassword, setShowPassword] = useState(false)
     const [showPassword2, setShowPassword2] = useState(false)
     const [classShadow, setClassShadow] = useState(false)
@@ -43,7 +36,7 @@ const LoginRegisterForm = ({tipoForm}) => {
 
     async function handleRegisterUser(e){
         e.preventDefault();
-        if(nome === "" || email === "" || password === "" || confirmPassword === ""){
+        if(nome === "" || email === "" || password === "" || confirmPassword === "" || userType === ""){
             return notifyWarn("Preencha todos os campos corretamente!")
         }
 
@@ -68,7 +61,8 @@ const LoginRegisterForm = ({tipoForm}) => {
         await api.post('/user/add', {
             "name": nome,
             "email":email,
-            "password":password
+            "password":password,
+            "user_type":parseInt(userType)
         }).then((res) => {
             cleanInputs()
             localStorage.setItem("user", JSON.stringify(res.data));
@@ -121,6 +115,14 @@ const LoginRegisterForm = ({tipoForm}) => {
             <div className={styles.divInputs}>
                 <label className={styles.formLabel}>E-mail</label>
                 <input onChange={(e) => setEmail(e.target.value)} value={email} className={styles.formInput} type='email' placeholder='Digite o seu email'/>
+            </div>
+            <div className={styles.divInputs} style={{display:tipoForm === 1 ? "none" : "flex"}}>
+                <label className={styles.formLabel}>Tipo de usuário</label>
+                <select value={userType} onChange={(e) => setUserType(e.target.value)} style={{cursor:"pointer"}} className={styles.formInput}>
+                    <option value="" selected disabled hidden>Escolha uma opção</option>
+                    <option value="1">Gerente</option>
+                    <option value="2">Funcionário</option>
+                </select>
             </div>
             <div className={styles.divInputs}>
                 <label className={styles.formLabel}>Senha</label>

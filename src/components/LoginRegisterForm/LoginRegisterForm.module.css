@@ -12,8 +12,8 @@
 
 .wrapperInputs{
     width: 85%;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,6 +30,7 @@
     margin-bottom: 1.5rem;
 
 }
+
 
 .divInputSenha{
     display: flex;
@@ -88,6 +89,18 @@
     font-size: 14px;
     transition: 0.1s all ease-in;
 }
+select.formInput option {
+    position: absolute;
+    background-color: #49724A;
+    color:#fff;
+    font-size:14px;
+  }
+  
+select.formInput option:checked{
+    box-shadow: 0 0 10px 100px #262728 inset;
+  }
+
+ 
 
 .formInput:focus {
     box-shadow: 0px 3px 3px 0px #7AA174;
@@ -171,9 +184,24 @@
     width: 40%;
 
    } 
+   .formInput{
+        height: 40px;
+    }
+   .formInputSenha{
+        height: 40px;
+    }
+    .divInputs{
+        height: 70px;
+    }
+    .divInputSenha{
+       height: 40px;
+   }
    .wrapperInputs{
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+   }
+   .divInputSenhaShadow{
+    height: 40px;
    }
 }
 @media screen and (max-width:800px) {

@@ -1,0 +1,31 @@
+.container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper{
+    width: 90%;
+    height: 80%;
+  
+}
+.wrapperTitle{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrapperTitle h1{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color:#49724A;
+}
+.wrapperInfo{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

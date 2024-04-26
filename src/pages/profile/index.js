@@ -1,6 +1,9 @@
 import Loading from "@/components/Loading/Loading";
 import { useRouter } from "next/router";
 import styles from './Profile.module.css'
+import InfoUser from "@/components/InfoUser";
+import InfoCompany from "@/components/InfoCompany";
+import Separador from "@/components/Separador";
 
 const Profile = () => {
 
@@ -16,11 +19,29 @@ const Profile = () => {
 
     const renderComponent = () => {
       if(user){
-        return (
-        <div>
-          <h1>PROFILE</h1>
-        </div>
-        )
+        if(user.id_company !== null){
+          return (
+            <div className={styles.container}>
+              <div className={styles.wrapper}>
+                <InfoUser/>
+              </div>
+              <div className={styles.separador}>
+                <Separador/>
+              </div>
+              <div className={styles.wrapper}>
+                <InfoCompany/>
+              </div>
+            </div>
+            )
+        }else{
+          return(
+            <div className={styles.container}>
+              <div className={styles.wrapper}>
+                <InfoUser/>
+              </div>
+            </div>
+          )
+        }
       }else{
         return(
           <div className={styles.loadingContainer}> 
