@@ -17,8 +17,8 @@ const InfoCompanyContainer = ({tipoForm}) => {
     }
 
     const [loading, setLoading] = useState(false);
-    const [nome, setNome] = useState(user.name)
-    const [email, setEmail] = useState(user.email)
+    const [nome, setNome] = useState(user?.name)
+    const [email, setEmail] = useState(user?.email)
     const notifySuccess = (text) => toast.success(text);
     const notifyError = (text) => toast.error(text);
     const notifyWarn = (text) => toast.warn(text);
@@ -46,11 +46,11 @@ const InfoCompanyContainer = ({tipoForm}) => {
             
             <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>
                 <label className={styles.formLabel}>Tipo da conta:&nbsp;</label>
-                <label className={styles.formLabel}>{user.user_desc}</label>
+                <label className={styles.formLabel}>{user?.user_desc}</label>
             </div>
             <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>
                 <label className={styles.formLabel}>Conta criada em:&nbsp;</label>
-                <label className={styles.formLabel}>{formatarData(user.created_at)}</label>
+                <label className={styles.formLabel}>{formatarData(user?.created_at)}</label>
             </div>
             <div className={styles.divInputs} style={{display:tipoForm === 1 ? "none" : "flex"}}>
                 <label className={styles.formLabel}>Nome</label>

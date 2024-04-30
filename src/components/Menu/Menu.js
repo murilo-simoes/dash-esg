@@ -37,10 +37,10 @@ const Menu = ({}) => {
                         <div data-tooltip-id="tooltipMenu" data-tooltip-content="Dashboard" onClick={() => router.push('/')} className={styles.pages}>
                             <FontAwesomeIcon icon={faChartLine} className={styles.iconPage}/>
                         </div>
-                        <div style={{display: user.user_type !== 2 ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Criar relatório" onClick={() => router.push('/addCompany')} className={styles.pages}>
+                        <div style={{display: user?.user_type !== 2 ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Criar relatório" onClick={() => router.push('/addCompany')} className={styles.pages}>
                             <FontAwesomeIcon icon={faFileCirclePlus} className={styles.iconPage}/>
                         </div>
-                        <div style={{display: user.user_type !== 2 && user.id_company !== null ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Adicionar funcionários" onClick={() => router.push('/addEmployee')} className={styles.pages}>
+                        <div style={{display: user?.user_type !== 2 && user?.id_company !== null ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Adicionar funcionários" onClick={() => router.push('/addEmployee')} className={styles.pages}>
                             <FontAwesomeIcon icon={faUserPlus} className={styles.iconPage}/>
                         </div>
                         <div data-tooltip-id="tooltipMenu" data-tooltip-content="Meu perfil" onClick={() => router.push('/profile')} className={styles.pages}>

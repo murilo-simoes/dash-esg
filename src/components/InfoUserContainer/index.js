@@ -45,7 +45,7 @@ const InfoUserContainer = ({tipoForm}) => {
           <form className={styles.wrapperInputs}>
             
             <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>
-                <label className={styles.formLabel}>Tipo da conta:&nbsp;</label>
+                <label className={styles.formLabel}>Tipo de conta:&nbsp;</label>
                 <label className={styles.formLabel}>{user.user_desc}</label>
             </div>
             <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>

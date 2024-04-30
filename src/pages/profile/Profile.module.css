@@ -20,6 +20,20 @@
     flex-direction: column;
     
 }
+.containerSolo{
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapperSolo{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    
+}
 .separador{
     width: auto;
     height: 100%;
