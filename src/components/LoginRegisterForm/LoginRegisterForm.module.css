@@ -91,8 +91,6 @@
 }
 select.formInput option {
     position: absolute;
-    background-color: #49724A;
-    color:#fff;
     font-size:14px;
   }
   

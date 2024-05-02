@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "nome": "Aeroespacial e Defesa"
+      },
+      {
+        "id": 2,
+        "nome": "Agronegócio"
+      },
+      {
+        "id": 3,
+        "nome": "Alimentos e Bebidas"
+      },
+      {
+        "id": 4,
+        "nome": "Automotivo"
+      },
+      {
+        "id": 5,
+        "nome": "Bens de Consumo"
+      },
+      {
+        "id": 6,
+        "nome": "Ciências da Vida"
+      },
+      {
+        "id": 7,
+        "nome": "Construção e Engenharia"
+      },
+      {
+        "id": 8,
+        "nome": "Educação"
+      },
+      {
+        "id": 9,
+        "nome": "Energia e Utilidade Pública"
+      },
+      {
+        "id": 10,
+        "nome": "Manufatura"
+      },
+      {
+        "id": 11,
+        "nome": "Mineração e Metalurgia"
+      },
+      {
+        "id": 12,
+        "nome": "Serviços de Saúde"
+      },
+      {
+        "id": 13,
+        "nome": "Serviços e Consultorias"
+      },
+      {
+        "id": 14,
+        "nome": "Serviços Financeiros"
+      },
+      {
+        "id": 15,
+        "nome": "Setor Público"
+      },
+      {
+        "id": 16,
+        "nome": "Outros"
+      },
+      {
+        "id": 17,
+        "nome": "Químicos"
+      },
+      {
+        "id": 18,
+        "nome": "Varejo, Atacado e Distribuição"
+      },
+      {
+        "id": 19,
+        "nome": "Tecnologia"
+      },
+      {
+        "id": 20,
+        "nome": "Transporte e Logística"
+      }
+]
