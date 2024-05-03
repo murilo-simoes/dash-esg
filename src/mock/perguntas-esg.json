@@ -1,0 +1,299 @@
+{
+    "etapa1": [
+      {
+        "id": 1,
+        "esg": "01 Ambiental",
+        "visoes": "01 Estratégico",
+        "pergunta": "A empresa possui metas claras de redução de impactos ambientais?"
+      },
+      {
+        "id": 2,
+        "esg": "01 Ambiental",
+        "visoes": "01 Estratégico",
+        "pergunta": "A empresa gerencia os resíduos de forma eficiente?"
+      },
+      {
+        "id": 3,
+        "esg": "01 Ambiental",
+        "visoes": "01 Estratégico",
+        "pergunta": "A empresa têm ações para reduzir o consumo de energia e água?"
+      },
+      {
+        "id": 4,
+        "esg": "01 Ambiental",
+        "visoes": "01 Estratégico",
+        "pergunta": "A empresa investe em tecnologias mais limpas e sustentáveis?"
+      },
+      {
+        "id": 5,
+        "esg": "01 Ambiental",
+        "visoes": "02 Planejamento",
+        "pergunta": "A empresa utiliza materiais sustentáveis em seus processos produtivos?"
+      },
+      {
+        "id": 6,
+        "esg": "01 Ambiental",
+        "visoes": "02 Planejamento",
+        "pergunta": "A empresa integra práticas sustentáveis em sua cadeia de suprimentos?"
+      },
+      {
+        "id": 7,
+        "esg": "01 Ambiental",
+        "visoes": "02 Planejamento",
+        "pergunta": "A empresa incentiva seus funcionários a adotarem práticas sustentáveis no trabalho?"
+      },
+      {
+        "id": 8,
+        "esg": "01 Ambiental",
+        "visoes": "02 Planejamento",
+        "pergunta": "A empresa investe em energia renovável?"
+      },
+      {
+        "id": 9,
+        "esg": "01 Ambiental",
+        "visoes": "03 Controle",
+        "pergunta": "A empresa monitora seus impactos ambientais e avalia o desempenho de suas práticas sustentáveis?"
+      },
+      {
+        "id": 10,
+        "esg": "01 Ambiental",
+        "visoes": "03 Controle",
+        "pergunta": "A empresa se prepara para lidar com eventuais riscos ambientais?"
+      },
+      {
+        "id": 11,
+        "esg": "01 Ambiental",
+        "visoes": "03 Controle",
+        "pergunta": "A empresa realiza auditorias ambientais regulares em suas operações?"
+      },
+      {
+        "id": 12,
+        "esg": "01 Ambiental",
+        "visoes": "03 Controle",
+        "pergunta": "A empresa avalia como seus impactos ambientais que podem afetar sua operação a longo prazo?"
+      }
+    ],
+    "etapa2": [
+        {
+            "id": 13,
+            "esg": "01 Ambiental",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa realiza programas de reciclagem de materiais utilizados?"
+          },
+          {
+            "id": 14,
+            "esg": "01 Ambiental",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa incentiva seus fornecedores a adotarem práticas sustentáveis?"
+          },
+          {
+            "id": 15,
+            "esg": "01 Ambiental",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa realiza campanhas internas de conscientização ambiental?"
+          },
+          {
+            "id": 16,
+            "esg": "01 Ambiental",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa realiza ações de preservação e conservação da biodiversidade em suas operações?"
+          },
+          {
+            "id": 17,
+            "esg": "02 Social",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa têm políticas de saúde e segurança do trabalho?"
+          },
+          {
+            "id": 18,
+            "esg": "02 Social",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa possui metas claras de diversidade e inclusão em sua cultura corporativa?"
+          },
+          {
+            "id": 19,
+            "esg": "02 Social",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa apoia a redução da desigualdade social em suas operações?"
+          },
+          {
+            "id": 20,
+            "esg": "02 Social",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa se compromete com a proteção dos direitos humanos?"
+          },
+          {
+            "id": 21,
+            "esg": "02 Social",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa melhora o bem-estar e a qualidade de vida de seus colaboradores?"
+          },
+          {
+            "id": 22,
+            "esg": "02 Social",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa investe no desenvolvimento e capacitação para seus funcionários?"
+          },
+          {
+            "id": 23,
+            "esg": "02 Social",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa apoia ações sociais em comunidades próximas de suas operações?"
+          },
+          {
+            "id": 24,
+            "esg": "02 Social",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa lida bem com conflitos com seus stakeholders?"
+          }
+    ],
+    "etapa3":[
+        {
+            "id": 25,
+            "esg": "02 Social",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa monitora seus impactos sociais e avalia o desempenho de suas práticas sociais?"
+          },
+          {
+            "id": 26,
+            "esg": "02 Social",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa se prepara para lidar com eventuais riscos sociais?"
+          },
+          {
+            "id": 27,
+            "esg": "02 Social",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa realiza auditorias sociais regulares em suas operações?"
+          },
+          {
+            "id": 28,
+            "esg": "02 Social",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa avalia como seus impactos sociais podem afetar sua operação a longo prazo?"
+          },
+          {
+            "id": 29,
+            "esg": "02 Social",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa realiza doações para instituições sociais?"
+          },
+          {
+            "id": 30,
+            "esg": "02 Social",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa incentiva a participação voluntária de seus colaboradores em projetos sociais?"
+          },
+          {
+            "id": 31,
+            "esg": "02 Social",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa adota práticas de responsabilidade social em sua cadeia de fornecedores?"
+          },
+          {
+            "id": 32,
+            "esg": "02 Social",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa promove o diálogo com seus stakeholders sobre assuntos sociais relevantes?"
+          },
+          {
+            "id": 33,
+            "esg": "03 Governança",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa possui políticas e planos para melhorar a transparência em suas operações?"
+          },
+          {
+            "id": 34,
+            "esg": "03 Governança",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa investe na melhoria da gestão de seus processos internos?"
+          },
+          {
+            "id": 35,
+            "esg": "03 Governança",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa contribui para a melhoraria de sua prestação de contas aos seus stakeholders?"
+          },
+          {
+            "id": 36,
+            "esg": "03 Governança",
+            "visoes": "01 Estratégico",
+            "pergunta": "A empresa se compromete com a ética e a integridade em suas operações?"
+          }
+    ],
+    "etapa4":[
+        {
+            "id": 37,
+            "esg": "03 Governança",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa adota melhores práticas na de tomada de decisão?"
+          },
+          {
+            "id": 38,
+            "esg": "03 Governança",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa tem as melhores práticas nos processos de comunicação com seus stakeholders?"
+          },
+          {
+            "id": 39,
+            "esg": "03 Governança",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa investe em planos para melhoria na governança dos processos da empresa?"
+          },
+          {
+            "id": 40,
+            "esg": "03 Governança",
+            "visoes": "02 Planejamento",
+            "pergunta": "A empresa possui um código de conduta e ética para seus colaboradores?"
+          },
+          {
+            "id": 41,
+            "esg": "03 Governança",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa monitora e avalia sua conformidade com as leis e regulamentações aplicáveis?"
+          },
+          {
+            "id": 42,
+            "esg": "03 Governança",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa adota ações corretivas em caso de não conformidade com as políticas de governança?"
+          },
+          {
+            "id": 43,
+            "esg": "03 Governança",
+            "visoes": "03 Controle",
+            "pergunta": "A empresa realiza auditorias regulares em seus processos de governança?"
+          },
+          {
+            "id": 44,
+            "esg": "03 Governança",
+            "visoes": "03 Controle",
+            "pergunta": "Como a empresa lida com a gestão de conflitos de interesses?"
+          },
+          {
+            "id": 45,
+            "esg": "03 Governança",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa adota práticas de remuneração e incentivos alinhadas aos objetivos de sustentabilidade?"
+          },
+          {
+            "id": 46,
+            "esg": "03 Governança",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa realiza treinamentos para seus colaboradores sobre boas práticas de governança?"
+          },
+          {
+            "id": 47,
+            "esg": "03 Governança",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa realiza ações para promover a transparência e prestação de contas para seus stakeholders?"
+          },
+          {
+            "id": 48,
+            "esg": "03 Governança",
+            "visoes": "04 Ação",
+            "pergunta": "A empresa possui mecanismos para reclamações e denúncias de seus stakeholders relacionados à governança?"
+          }
+    ] 
+  }
+  

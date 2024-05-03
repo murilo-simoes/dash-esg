@@ -3,13 +3,14 @@ import { useRouter } from "next/router";
 import styles from './AddCompany.module.css'
 import IncluirEmpresa from "@/components/IncluirEmpresa";
 import WrapperSurvey from "@/components/WrapperSurvey";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import InputMask from 'react-input-mask';
 import { validarCNPJ, validarPorcentagem } from "@/functions/validar";
 import paises from '../../mock/paises-gentilicos-google-maps.json'
 import areas from '../../mock/indutrias-empresas.json'
+import questions from '../../mock/perguntas-esg.json'
 
 
 const AddCompany = () => {
@@ -25,6 +26,8 @@ const AddCompany = () => {
 
     const router = useRouter();
     const [etapa, setEtapa] = useState(0);
+    const [formValues, setFormValues] = useState({})
+    const refRadio = useRef(null)
 
     //#region VARIAVEIS DO FORM DA EMPRESA
 
@@ -42,6 +45,60 @@ const AddCompany = () => {
       const notifyError = (text) => toast.error(text);
       const notifyWarn = (text) => toast.warn(text);
     //#endregion
+
+
+    const perguntasEtapa1 = questions.etapa1.map(item => {
+      return {
+        id: item.id,
+        esg: item.esg, 
+        visoes: item.visoes, 
+        pergunta: item.pergunta 
+      };
+    });
+    const perguntasEtapa2 = questions.etapa2.map(item => {
+      return {
+        id: item.id,
+        esg: item.esg, 
+        visoes: item.visoes, 
+        pergunta: item.pergunta 
+      };
+    });
+    const perguntasEtapa3 = questions.etapa3.map(item => {
+      return {
+        id: item.id,
+        esg: item.esg, 
+        visoes: item.visoes, 
+        pergunta: item.pergunta 
+      };
+    });
+    const perguntasEtapa4 = questions.etapa4.map(item => {
+      return {
+        id: item.id,
+        esg: item.esg, 
+        visoes: item.visoes, 
+        pergunta: item.pergunta 
+      };
+    });
+
+    const handleInputChange = (e) => {
+      setFormValues({
+        ...formValues,
+        [e.target.name]: e.target.value,
+      });
+    };
+
+    const handleNextStep = (qty) => {
+        if(Object.keys(formValues).length >= qty){
+          refRadio.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          })
+          return setEtapa(etapa + 1)
+        }else{
+          return notifyWarn("Responda todas as perguntas para passar para a próxima etapa!")
+        }
+    }
+
 
     const validarCamposEmpresa = () => {
       if(nome === "" || cnpj === "" || industria === "" || pais === "" || funcionarios === "" || indicador === "" ){
@@ -63,7 +120,6 @@ const AddCompany = () => {
 
       setEtapa(2)
     }
-
     const renderComponent = () => {
       if(user){
         if(user.user_type !== 2 ){
@@ -184,15 +240,41 @@ const AddCompany = () => {
             <>
               <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
               <WrapperSurvey>
-                  <div>
-                    Etapa 2
+                <div ref={refRadio}></div>
+                {perguntasEtapa1.map((item) => {
+                  return(
+                  <div key={item?.id} className={styles.containerRadio}>
+                    <h1 className={styles.wrapperTitles}><span  style={{color:"#49724A", fontWeight:"bold"}}>{item?.id}.</span> {item.pergunta}</h1>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "1"} type="radio" className={styles.radioEsg} name={item?.id} value={1}/>
+                      <label htmlFor="1">Concordo totalmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.75"} type="radio" className={styles.radioEsg} name={item?.id} value={0.75}/>
+                      <label htmlFor="2">Concordo parcialmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.5"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0.5}/>
+                      <label htmlFor="3">Neutro</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.25"} type="radio" className={styles.radioEsg}  name={item?.id} value={0.25}/>
+                      <label htmlFor="4">Discordo parcialmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0}/>
+                      <label htmlFor="5">Discordo totalmente</label>
+                    </div>
                   </div>
+                  )
+                  })}
+                  
                   <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div className={styles.wrapperButton}>
                       <Button style={{backgroundColor:"#C0C0C0"}} click={() => setEtapa(etapa - 1)} text={'Voltar'}/>
                     </div>
                     <div className={styles.wrapperButton}>
-                      <Button click={() => setEtapa(3)} text={'Próxima etapa'}/>
+                      <Button click={() => handleNextStep(12)} text={'Próxima etapa'}/>
                     </div>
                   </div>
               </WrapperSurvey>
@@ -206,15 +288,41 @@ const AddCompany = () => {
             <>
               <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
               <WrapperSurvey>
-                 <div>
-                    Etapa 3
-                  </div>
+              <div ref={refRadio}></div>
+              {perguntasEtapa2.map((item) => {
+                  return(
+                    <div key={item?.id} className={styles.containerRadio}>
+                      <h1 className={styles.wrapperTitles}><span  style={{color:"#49724A", fontWeight:"bold"}}>{item?.id}.</span> {item.pergunta}</h1>
+                      <div className={styles.wrapperAnswer}>
+                        <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "1"} type="radio" className={styles.radioEsg} name={item?.id} value={1}/>
+                        <label htmlFor="1">Concordo totalmente</label>
+                      </div>
+                      <div className={styles.wrapperAnswer}>
+                        <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.75"} type="radio" className={styles.radioEsg} name={item?.id} value={0.75}/>
+                        <label htmlFor="2">Concordo parcialmente</label>
+                      </div>
+                      <div className={styles.wrapperAnswer}>
+                        <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.5"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0.5}/>
+                        <label htmlFor="3">Neutro</label>
+                      </div>
+                      <div className={styles.wrapperAnswer}>
+                        <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.25"} type="radio" className={styles.radioEsg}  name={item?.id} value={0.25}/>
+                        <label htmlFor="4">Discordo parcialmente</label>
+                      </div>
+                      <div className={styles.wrapperAnswer}>
+                        <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0}/>
+                        <label htmlFor="5">Discordo totalmente</label>
+                      </div>
+                    </div>
+                    )
+                  })}
+                  
                   <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div className={styles.wrapperButton}>
                       <Button style={{backgroundColor:"#C0C0C0"}} click={() => setEtapa(etapa - 1)} text={'Voltar'}/>
                     </div>
                     <div className={styles.wrapperButton}>
-                      <Button click={() => setEtapa(4)} text={'Próxima etapa'}/>
+                      <Button click={() => handleNextStep(24)} text={'Próxima etapa'}/>
                     </div>
                   </div>
               </WrapperSurvey>
@@ -228,15 +336,42 @@ const AddCompany = () => {
             <>
               <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
               <WrapperSurvey>
-                  <div>
-                    Etapa 4
+              <div ref={refRadio}></div>
+              {perguntasEtapa3.map((item) => {
+                  
+                  return(
+                  <div key={item?.id} className={styles.containerRadio}>
+                    <h1 className={styles.wrapperTitles}><span  style={{color:"#49724A", fontWeight:"bold"}}>{item?.id}.</span> {item.pergunta}</h1>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "1"} type="radio" className={styles.radioEsg} name={item?.id} value={1}/>
+                      <label htmlFor="1">Concordo totalmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.75"} type="radio" className={styles.radioEsg} name={item?.id} value={0.75}/>
+                      <label htmlFor="2">Concordo parcialmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.5"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0.5}/>
+                      <label htmlFor="3">Neutro</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.25"} type="radio" className={styles.radioEsg}  name={item?.id} value={0.25}/>
+                      <label htmlFor="4">Discordo parcialmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0}/>
+                      <label htmlFor="5">Discordo totalmente</label>
+                    </div>
                   </div>
+                  )
+                  })}
+                  
                   <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div className={styles.wrapperButton}>
                       <Button style={{backgroundColor:"#C0C0C0"}} click={() => setEtapa(etapa - 1)} text={'Voltar'}/>
                     </div>
                     <div className={styles.wrapperButton}>
-                      <Button click={() => setEtapa(5)} text={'Próxima etapa'}/>
+                      <Button click={() => handleNextStep(36)} text={'Próxima etapa'}/>
                     </div>
                   </div>
               </WrapperSurvey>
@@ -250,16 +385,42 @@ const AddCompany = () => {
             <>
               <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
               <WrapperSurvey>
-                  <div>
-                    Etapa 5
+              <div ref={refRadio}></div>
+              {perguntasEtapa4.map((item) => {
+                  
+                  return(
+                  <div key={item?.id} className={styles.containerRadio}>
+                    <h1 className={styles.wrapperTitles}><span  style={{color:"#49724A", fontWeight:"bold"}}>{item?.id}.</span> {item.pergunta}</h1>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "1"} type="radio" className={styles.radioEsg} name={item?.id} value={1}/>
+                      <label htmlFor="1">Concordo totalmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.75"} type="radio" className={styles.radioEsg} name={item?.id} value={0.75}/>
+                      <label htmlFor="2">Concordo parcialmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.5"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0.5}/>
+                      <label htmlFor="3">Neutro</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0.25"} type="radio" className={styles.radioEsg}  name={item?.id} value={0.25}/>
+                      <label htmlFor="4">Discordo parcialmente</label>
+                    </div>
+                    <div className={styles.wrapperAnswer}>
+                      <input onChange={(e) => handleInputChange(e)} checked={formValues[item?.id] === "0"}  type="radio" className={styles.radioEsg}  name={item?.id} value={0}/>
+                      <label htmlFor="5">Discordo totalmente</label>
+                    </div>
                   </div>
-
+                  )
+                  })}
+                  
                   <div style={{display:"flex", justifyContent:"space-between"}}>
                     <div className={styles.wrapperButton}>
                       <Button style={{backgroundColor:"#C0C0C0"}} click={() => setEtapa(etapa - 1)} text={'Voltar'}/>
                     </div>
                     <div className={styles.wrapperButton}>
-                      <Button click={() => alert("ACABOU")} text={'Finalizar questionário'}/>
+                      <Button click={() => Object.keys(formValues).length ===48 ? console.log("Acabou") : console.log("Preencha o resto")} text={'Finalizar questionário'}/>
                     </div>
                   </div>
               </WrapperSurvey>
