@@ -1,3 +1,4 @@
+import InfoCompanyContainer from '../InfoCompanyContainer';
 import InfoUserContainer from '../InfoUserContainer';
 import styles from './InfoCompany.module.css'
 
@@ -6,10 +7,10 @@ const InfoCompany = () => {
         <div className={styles.container}>
             <div className={styles.wrapper}>
                 <div className={styles.wrapperTitle}>
-                    <h1>Minhas informações</h1>
+                    <h1>Informações da empresa</h1>
                 </div>
                 <div className={styles.wrapperInfo}>
-                    <InfoUserContainer/>    
+                    <InfoCompanyContainer/>    
                 </div>
             </div>
         </div>

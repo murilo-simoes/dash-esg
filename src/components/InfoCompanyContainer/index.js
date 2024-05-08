@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import styles from './InfoUserContainer.module.css'; // Importe o CSS usando CSS Modules
+import { useEffect, useState } from 'react';
+import styles from './InfoCompanyContainer.module.css'; // Importe o CSS usando CSS Modules
 import {toast } from 'react-toastify';
-import Link from 'next/link';
-import { useRouter } from "next/router";
-import { api } from '@/api/axios';
-import ReactLoading from 'react-loading';
 import Loading from '../Loading/Loading';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { api } from '@/api/axios';
+
 
 const InfoCompanyContainer = ({tipoForm}) => {
 
@@ -16,9 +12,8 @@ const InfoCompanyContainer = ({tipoForm}) => {
       user = JSON.parse(localStorage.getItem("user")) || undefined
     }
 
-    const [loading, setLoading] = useState(false);
-    const [nome, setNome] = useState(user?.name)
-    const [email, setEmail] = useState(user?.email)
+    const [loading, setLoading] = useState(true);
+    const [company, setCompany] = useState();
     const notifySuccess = (text) => toast.success(text);
     const notifyError = (text) => toast.error(text);
     const notifyWarn = (text) => toast.warn(text);
@@ -33,40 +28,60 @@ const InfoCompanyContainer = ({tipoForm}) => {
         return dataFormatada;
     }
 
-    function cleanInputs(){
-        setNome("")
-        setEmail("")
-    }
 
+    useEffect(() => {
+        const getCompanyDetails = async () =>{
+            try{
+                const c = await api.post(`/company/find/?id=${user?.id_company}`);
+                setCompany(c.data)
+            }catch(err){
+                console.log(err)
+            }finally{
+                setLoading(false)
+            }
+        }
 
+        getCompanyDetails()
+    },[])
 
     return ( 
         <div className={styles.wrapper}>
+            {!loading ?
           <form className={styles.wrapperInputs}>
-            
             <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>
-                <label className={styles.formLabel}>Tipo da conta:&nbsp;</label>
-                <label className={styles.formLabel}>{user?.user_desc}</label>
+                <label className={styles.formLabel}>Quantidade de funcionários:&nbsp;</label>
+                <label className={styles.formLabel}>{company.employee_qty}</label>
             </div>
             <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>
-                <label className={styles.formLabel}>Conta criada em:&nbsp;</label>
-                <label className={styles.formLabel}>{formatarData(user?.created_at)}</label>
+                <label className={styles.formLabel}>Empresa criada em:&nbsp;</label>
+                <label className={styles.formLabel}>{formatarData(company.created_at)}</label>
+            </div>
+            <div className={styles.divCreated} style={{display:tipoForm === 1 ? "none" : "flex"}}>
+                <label className={styles.formLabel}>Meta ESG:&nbsp;</label>
+                <label className={styles.formLabel}>{company.esg_goal}%</label>
             </div>
             <div className={styles.divInputs} style={{display:tipoForm === 1 ? "none" : "flex"}}>
-                <label className={styles.formLabel}>Nome</label>
-                <input disabled={true} onChange={(e) => setNome(e.target.value)} value={nome} className={styles.formInput} type='text' placeholder='Nome'/>
+                <label className={styles.formLabel}>Nome da empresa</label>
+                <input disabled={true} value={company.name} className={styles.formInput} type='text' placeholder='Nome'/>
             </div>
             <div className={styles.divInputs}>
-                <label className={styles.formLabel}>E-mail</label>
-                <input disabled={true} onChange={(e) => setEmail(e.target.value)} value={email} className={styles.formInput} type='email' placeholder='E-mail'/>
+                <label className={styles.formLabel}>CNPJ</label>
+                <input disabled={true} value={company.cnpj} className={styles.formInput} type='text' placeholder='Cnpj'/>
             </div>
-
-            <div style={{display:"none"}} className={styles.divLabel}>
-                <button disabled={ loading === false ? false : true} className={styles.formButton}>
-                    { loading === false ? "Salvar" : <Loading width={"15%"} height={"15%"} type={"spin"} color={"#7AA174"}/>}
-                </button> 
+            <div className={styles.divInputs}>
+                <label className={styles.formLabel}>Gerente da empresa</label>
+                <input disabled={true} value={user.name} className={styles.formInput} type='text' placeholder='Cnpj'/>
+            </div>
+            <div className={styles.divInputs}>
+                <label className={styles.formLabel}>País sede</label>
+                <input disabled={true} value={company.country} className={styles.formInput} type='text' placeholder='Cnpj'/>
+            </div>
+            <div className={styles.divInputs}>
+                <label className={styles.formLabel}>Indústria</label>
+                <input disabled={true} value={company.branch} className={styles.formInput} type='text' placeholder='Cnpj'/>
             </div>
           </form>
+            : <Loading width={"10%"} height={"10%"} type={"spin"} color={"#7AA174"}/>}
         </div>
      )
 }

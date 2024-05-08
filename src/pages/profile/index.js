@@ -22,14 +22,16 @@ const Profile = () => {
         if(user.id_company !== null){
           return (
             <div className={styles.container}>
-              <div className={styles.wrapper}>
-                <InfoUser/>
-              </div>
-              <div className={styles.separador}>
-                <Separador className="separador"/>
-              </div>
-              <div className={styles.wrapper}>
-                <InfoCompany/>
+              <div className={styles.wrapperAll}>
+                <div className={styles.wrapper}>
+                  <InfoUser/>
+                </div>
+                <div className={styles.separador}>
+                  <Separador/>
+                </div>
+                <div className={styles.wrapper}>
+                  <InfoCompany/>
+                </div>
               </div>
             </div>
             )

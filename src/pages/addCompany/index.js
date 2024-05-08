@@ -114,7 +114,7 @@ const AddCompany = () => {
       }
 
       if(!validarPorcentagem(indicador)){
-        return notifyWarn("A porcentagem do indicador é inválida!")
+        return notifyWarn("A porcentagem do indicador é inválida, digite de 0 a 100!")
       }
 
 
