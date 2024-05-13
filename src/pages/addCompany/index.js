@@ -158,7 +158,7 @@ const AddCompany = () => {
 
     const handleExistsCompany = async () => {
 
-      if(validarCamposEmpresa){
+      if(validarCamposEmpresa()){
  
         const res = await api.post(`/company/existe?cnpj=${cnpj}`, null, {
           headers:{
@@ -167,7 +167,7 @@ const AddCompany = () => {
         })
 
         if(res.data === 0){
-          return setEtapa(2)
+          return setEtapa(etapa + 1)
         }else{
           notifyWarn("Já existe uma empresa com esse CNPJ cadastrado!")
         }
@@ -175,6 +175,59 @@ const AddCompany = () => {
       }
     }
 
+    const devBotao = () => {
+      setFormValues({
+    r1: 0,
+    r2: 0.25,
+    r3: 0.5,
+    r4: 0.75,
+    r5: 1,
+    r6: 0,
+    r7: 0.25,
+    r8: 0.5,
+    r9: 0.75,
+    r10: 1,
+    r11: 0,
+    r12: 0.25,
+    r13: 0.5,
+    r14: 0.75,
+    r15: 1,
+    r16: 0,
+    r17: 0.25,
+    r18: 0.5,
+    r19: 0.75,
+    r20: 1,
+    r21: 0,
+    r22: 0.25,
+    r23: 0.5,
+    r24: 0.75,
+    r25: 1,
+    r26: 0,
+    r27: 0.25,
+    r28: 0.5,
+    r29: 0.75,
+    r30: 1,
+    r31: 0,
+    r32: 0.25,
+    r33: 0.5,
+    r34: 0.75,
+    r35: 1,
+    r36: 0,
+    r37: 0.25,
+    r38: 0.5,
+    r39: 0.75,
+    r40: 1,
+    r41: 0,
+    r42: 0.25,
+    r43: 0.5,
+    r44: 0.75,
+    r45: 1,
+    r46: 0,
+    r47: 0.25,
+    r48: 0.5
+})
+console.log(formValues)
+    }
 
     const renderComponent = () => {
       if(hasJWT()){
@@ -297,6 +350,10 @@ const AddCompany = () => {
             <>
               <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
               <WrapperSurvey>
+              { user?.email === "murilorsimoes@gmail.com" ?                     
+              <div className={styles.wrapperButton}>
+                      <Button style={{backgroundColor:"#49724A", marginBottom:"2rem"}} click={devBotao} text={'BOTÂO DEV'}/>
+              </div> : ""}
                 <div ref={refRadio}></div>
                 {perguntasEtapa1.map((item) => {
                   return(
