@@ -70,8 +70,8 @@ const InfoCompanyContainer = ({tipoForm}) => {
                 }
             })
            
-            
             notifySuccess("Empresa deletada com sucesso!")
+            window.location.reload() 
         }catch(err){
             notifyError("Não foi possível deletar a empresa!")
         }
