@@ -11,32 +11,64 @@ import { validarCNPJ, validarPorcentagem } from "@/functions/validar";
 import paises from '../../mock/paises-gentilicos-google-maps.json'
 import areas from '../../mock/indutrias-empresas.json'
 import questions from '../../mock/perguntas-esg.json'
+import { useToken } from "@/context/TokenContext";
+import { api } from "@/api/axios";
+import { jwtDecode } from "jwt-decode";
 
 
 const AddCompany = () => {
 
-  let user;
-  if (typeof window !== "undefined") {
-    user = JSON.parse(localStorage.getItem("user")) || undefined
-    
-    if(!user){
-      router.push('/login')
-    }
-  }
-
+    const {user, setUser} = useToken()
     const router = useRouter();
+    let token = localStorage.getItem('token')
+
+    function hasJWT() {
+      let flag = false;
+  
+      //check user has JWT token
+      token = localStorage.getItem('token')
+  
+      if(token !== undefined && token !== null){
+        flag=true
+      }else{
+        flag=false
+      }
+  
+      return flag
+    }
+
+
+    useEffect(() => {
+      if(hasJWT()){
+
+      const getUser = async() => {
+  
+      const config = {
+          headers: { 'Authorization': `Bearer ${token}` }
+      };
+      const decodeToken = jwtDecode(token)
+  
+        const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
+        setUser(res.data)
+        
+      }
+  
+      getUser()
+    }
+    },[token])
+
     const [etapa, setEtapa] = useState(0);
     const [formValues, setFormValues] = useState({})
     const refRadio = useRef(null)
 
     //#region VARIAVEIS DO FORM DA EMPRESA
 
-      const [nome, setNome] = useState(user.email === "murilorsimoes@gmail.com" ? "Moshe Soluções Integradas" : "")
-      const [cnpj, setCnpj] = useState(user.email === "murilorsimoes@gmail.com" ? "05.653.724/0001-58" : "")
-      const [industria, setIndustria] = useState(user.email === "murilorsimoes@gmail.com" ? "Tecnologia": "")
-      const [pais, setPais] = useState( user.email === "murilorsimoes@gmail.com" ? "Brasil": "")
-      const [funcionarios, setFuncionarios] = useState(user.email === "murilorsimoes@gmail.com" ? "De 11 a 49 funcionários" : "")
-      const [indicador, setIndicador] = useState(user.email === "murilorsimoes@gmail.com" ? "70" : "")
+      const [nome, setNome] = useState("")
+      const [cnpj, setCnpj] = useState("")
+      const [industria, setIndustria] = useState("")
+      const [pais, setPais] = useState("")
+      const [funcionarios, setFuncionarios] = useState("")
+      const [indicador, setIndicador] = useState("")
 
     //#endregion
 
@@ -102,25 +134,50 @@ const AddCompany = () => {
 
     const validarCamposEmpresa = () => {
       if(nome === "" || cnpj === "" || industria === "" || pais === "" || funcionarios === "" || indicador === "" ){
-        return notifyWarn("Preencha todos os campos corretamente!")
+        notifyWarn("Preencha todos os campos corretamente!")
+        return false
       }
 
       if(nome.length < 7){
-        return notifyWarn("O nome deve conter pelo menos 8 caracteres!")
+        notifyWarn("O nome deve conter pelo menos 8 caracteres!")
+        return false
       }
     
       if(!validarCNPJ(cnpj)){
-        return notifyWarn("O CNPJ inserido é inválido!")
+         notifyWarn("O CNPJ inserido é inválido!")
+         return false
       }
 
       if(!validarPorcentagem(indicador)){
-        return notifyWarn("A porcentagem do indicador é inválida, digite de 0 a 100!")
+       notifyWarn("A porcentagem do indicador é inválida, digite de 0 a 100!")
+       return false
       }
 
-
-      setEtapa(2)
+      return true
     }
+
+    const handleExistsCompany = async () => {
+
+      if(validarCamposEmpresa){
+ 
+        const res = await api.post(`/company/existe?cnpj=${cnpj}`, null, {
+          headers:{
+            Authorization : `Bearer ${token}` 
+          }
+        })
+
+        if(res.data === 0){
+          return setEtapa(2)
+        }else{
+          notifyWarn("Já existe uma empresa com esse CNPJ cadastrado!")
+        }
+        
+      }
+    }
+
+
     const renderComponent = () => {
+      if(hasJWT()){
       if(user){
         if(user.user_type !== 2 ){
 
@@ -226,7 +283,7 @@ const AddCompany = () => {
                       <Button disabled="true" style={{backgroundColor:"#C0C0C0", visibility:"hidden"}} click={() => setEtapa(etapa - 1)} text={'Voltar'}/>
                     </div>
                     <div className={styles.wrapperButton}>
-                      <Button click={validarCamposEmpresa} text={'Próxima etapa'}/>
+                      <Button click={handleExistsCompany} text={'Próxima etapa'}/>
                     </div>
                   </div>
               </WrapperSurvey>
@@ -448,6 +505,9 @@ const AddCompany = () => {
           </div>
         )
       }
+    }else{
+      router.push('/login')
+    }
     }
     return ( 
         <>

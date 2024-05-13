@@ -7,23 +7,25 @@ import logo6 from '../../../public/logo6.png'
 import Image from 'next/image';
 import 'react-tooltip/dist/react-tooltip.css'
 import { Tooltip } from 'react-tooltip'
+import { api } from '@/api/axios';
+import { useEffect } from 'react';
+import { useToken } from '@/context/TokenContext';
 
 
 const Menu = ({}) => {
-    let user;
     const router = useRouter()
+    const {user, setUser} = useToken()
     const notifySuccess = (text) => toast.success(text);
+    const notifyWarn = (text) => toast.success(text);
 
-    if (typeof window !== "undefined") {
-      user = JSON.parse(localStorage.getItem("user")) || undefined
-    }
 
     const handleLogout = () => {
-        localStorage.removeItem("user")
+        localStorage.removeItem("token")
         notifySuccess("Sessão finalizada!")
         router.push('/login')
 
     }
+
 
     return ( 
             <div className={styles.container}>
@@ -37,7 +39,7 @@ const Menu = ({}) => {
                         <div data-tooltip-id="tooltipMenu" data-tooltip-content="Dashboard" onClick={() => router.push('/')} className={styles.pages}>
                             <FontAwesomeIcon icon={faChartLine} className={styles.iconPage}/>
                         </div>
-                        <div style={{display: user?.user_type !== 2 ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Criar relatório" onClick={() => router.push('/addCompany')} className={styles.pages}>
+                        <div style={{display: user?.user_type !== 2 && user?.id_company === null ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Criar relatório" onClick={() => router.push('/addCompany')} className={styles.pages}>
                             <FontAwesomeIcon icon={faFileCirclePlus} className={styles.iconPage}/>
                         </div>
                         <div style={{display: user?.user_type !== 2 && user?.id_company !== null ? "flex" : "none"}} data-tooltip-id="tooltipMenu" data-tooltip-content="Adicionar funcionários" onClick={() => router.push('/addEmployee')} className={styles.pages}>

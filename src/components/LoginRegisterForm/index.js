@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './LoginRegisterForm.module.css'; // Importe o CSS usando CSS Modules
 import {toast } from 'react-toastify';
 import Link from 'next/link';
@@ -8,18 +8,16 @@ import ReactLoading from 'react-loading';
 import Loading from '../Loading/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { TokenContext, useToken } from '@/context/TokenContext';
 
 const LoginRegisterForm = ({tipoForm}) => {
 
+    const token = localStorage.getItem('token')
+
     const router = useRouter();
-    
-    let user;
-    if (typeof window !== "undefined") {
-      user = JSON.parse(localStorage.getItem("user")) || undefined
-      
-      if(user){
+    if(token !== undefined && token !== null){
+
         router.push('/')
-      }
     }
 
     const [loading, setLoading] = useState(false);
@@ -76,9 +74,8 @@ const LoginRegisterForm = ({tipoForm}) => {
             "user_type":parseInt(userType)
         }).then((res) => {
             cleanInputs()
-            localStorage.setItem("user", JSON.stringify(res.data));
             notifySuccess("Usuário cadastrado com sucesso!")
-            router.push('/').catch((err) => {
+            router.push('/login').catch((err) => {
                 notifyError(err)
             })
         }).catch((err) => {
@@ -103,12 +100,14 @@ const LoginRegisterForm = ({tipoForm}) => {
             return notifyWarn("A senha deve conter pelo menos 6 caracteres!")
         }
         setLoading(true)
-        await api.post('/user/login', {
-            "email":email,
-            "password":password
-        }).then((res) => {
+
+        const bodyParameters = {
+            email:email,
+            password:password
+         };
+        await api.post('/login', bodyParameters).then((res) => {
             cleanInputs()
-            localStorage.setItem("user", JSON.stringify(res.data));
+            localStorage.setItem("token", res.data)
             notifySuccess("Login realizado com sucesso!")
             router.push('/').catch((err) => {
                 notifyError(err)
@@ -120,6 +119,16 @@ const LoginRegisterForm = ({tipoForm}) => {
         })
     }
 
+    function extrairMensagemDeErro(texto) {
+        const padrao = /BadCredentialsException: ([\w\sá-úÁ-ÚãõÃÕ.,]+)/;
+        const correspondencias = texto.match(padrao);
+        if (correspondencias && correspondencias.length > 1) {
+            return correspondencias[1];
+        } else {
+            return "Mensagem de erro não encontrada.";
+        }
+    }
+    
     return ( 
         <div className={styles.wrapper}>
           <form onSubmit={tipoForm === 1 ? handleLoginUser : handleRegisterUser} className={styles.wrapperInputs}>

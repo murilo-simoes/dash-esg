@@ -4,22 +4,54 @@ import styles from './Profile.module.css'
 import InfoUser from "@/components/InfoUser";
 import InfoCompany from "@/components/InfoCompany";
 import Separador from "@/components/Separador";
+import { api } from "@/api/axios";
+import { useToken } from "@/context/TokenContext";
+import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const Profile = () => {
 
     const router = useRouter();
-    let user;
-    if (typeof window !== "undefined") {
-      user = JSON.parse(localStorage.getItem("user")) || undefined
-      
-      if(!user){
-        router.push('/login')
+    const {user, setUser} = useToken();
+    let token;
+
+    function hasJWT() {
+      let flag = false;
+  
+      //check user has JWT token
+      token = localStorage.getItem('token')
+  
+      if(token !== undefined && token !== null){
+        flag=true
+      }else{
+        flag=false
       }
+  
+      return flag
     }
 
+    useEffect(() => {
+      if(hasJWT()){
+      const getUser = async() => {
+  
+      const config = {
+          headers: { 'Authorization': `Bearer ${token}` }
+      };
+      const decodeToken = jwtDecode(token)
+  
+        const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
+        setUser(res.data)
+        
+      }
+  
+      getUser()
+    }
+    },[token])
+
     const renderComponent = () => {
+      if(hasJWT()){
       if(user){
-        if(user.id_company !== null){
+        if(user?.id_company !== null){
           return (
             <div className={styles.container}>
               <div className={styles.wrapperAll}>
@@ -56,7 +88,10 @@ const Profile = () => {
           </div>  
         )
       }
+    }else{
+      router.push('/login')
     }
+  }
 
     return ( 
         <>

@@ -8,13 +8,11 @@ import ReactLoading from 'react-loading';
 import Loading from '../Loading/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { useToken } from '@/context/TokenContext';
 
 const InfoUserContainer = ({tipoForm}) => {
 
-    let user;
-    if (typeof window !== "undefined") {
-      user = JSON.parse(localStorage.getItem("user")) || undefined
-    }
+    const {user, setUser} = useToken()
 
     const [loading, setLoading] = useState(false);
     const [nome, setNome] = useState(user?.name)
@@ -24,13 +22,11 @@ const InfoUserContainer = ({tipoForm}) => {
     const notifyWarn = (text) => toast.warn(text);
 
     function formatarData(dataString) {
-        // Extrai partes da data
-        let partesData = dataString.split(/[T\-:\.Z]/);
-        
-        // Monta a data no novo formato
-        let dataFormatada = partesData[2] + '/' + partesData[1] + '/' + partesData[0];
-    
-        return dataFormatada;
+        var data = new Date(dataString);
+        var dia = data.getDate().toString().padStart(2, '0');
+        var mes = (data.getMonth() + 1).toString().padStart(2, '0');
+        var ano = data.getFullYear();
+        return dia + '/' + mes + '/' + ano;
     }
 
     function cleanInputs(){
