@@ -290,3 +290,28 @@ select.formInputDois option:checked{
 .radioEsg:checked::before {
     transform: scale(1);
 }
+
+.loadingDiv{
+    width: 50px;
+    height: 50px;
+   
+    max-height: 50px;
+    background-color: #2B4E30;
+    color: #fff;
+    border: none;
+    border-radius:12px;
+    font-size: 1rem;
+    transition: 0.1s all ease-in;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover{
+        cursor: pointer;
+        box-shadow: 0px 4px 15px 0px #7AA174;
+        outline: none;
+    }
+}
+
+

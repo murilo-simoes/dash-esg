@@ -3,14 +3,25 @@ import styles from './AddEmployee.module.css'
 import IncluirEmpresa from '@/components/IncluirEmpresa';
 import Loading from '@/components/Loading/Loading';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useToken } from '@/context/TokenContext';
+import InfoUser from '@/components/InfoUser';
+import WrapperSurvey from '@/components/WrapperSurvey';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 const AddEmployee = () => {
   
     const router = useRouter();
     const {user, setUser} = useToken();
+    const [email, setEmail] = useState("");
+    const [employee, setEmployee] = useState();
+    const [loading, setLoading] = useState(false);
+    const notifyError = (text) => toast.error(text);
+    const notifySuccess = (text) => toast.success(text);
+    const notifyWarn = (text) => toast.warn(text);
     let token = localStorage.getItem('token')
 
     function hasJWT() {
@@ -28,25 +39,78 @@ const AddEmployee = () => {
       return flag
     }
 
+    const handleFetchEmployee = async (data) => {
+      const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    };
+      const com = await api.post(`/user/findEmployees?id_company=${data}`,null, config)
+
+      setEmployee(com.data)
+    }
+
     useEffect(() => {
       if(hasJWT()){
-      const getUser = async() => {
-  
-      const config = {
-          headers: { 'Authorization': `Bearer ${token}` }
-      };
-      const decodeToken = jwtDecode(token)
-  
-        const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
-        setUser(res.data)
-        
+      try{
+        const getUser = async() => {
+    
+        const config = {
+            headers: { 'Authorization': `Bearer ${token}` }
+        };
+        const decodeToken = jwtDecode(token)
+    
+          const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
+          setUser(res.data)
+
+          handleFetchEmployee(res?.data?.id_company)
+          
+        }
+      
+        getUser() 
+      }catch(err){
+        notifyError("Erro ao pegar as informações do usuário e seus funcionarios")
       }
-  
-      getUser()
+        
     }
     },[token])
 
 
+
+    const handleAddEmployee = async (e) => {
+      e.preventDefault();
+      setLoading(true)
+
+      const body = {
+        email:email,
+        id_company: user?.id_company
+      }
+      const config = {
+        headers: { 'Authorization': `Bearer ${token}` }
+    };
+      try{
+        await api.post('/company/addEmployee', body, config)
+
+        handleFetchEmployee(user?.id_company)
+        notifySuccess("Funcionário adicionado com sucesso!")
+        setEmail("")
+      }catch(err){
+        notifyError(err.response.data.message)
+      }finally{
+        setLoading(false)
+      }
+    }
+    const handleRemoveEmployee = async (email) => {
+      try{
+        const config = {
+            headers: { 'Authorization': `Bearer ${token}` }
+        };
+        const res = await api.post(`/company/removeEmployee?email=${email}`, null, config)
+
+        handleFetchEmployee(user?.id_company)
+        notifySuccess(res.data)
+      }catch(err){
+        notifyError("Erro ao remover o funcionário!")
+      }
+    }
 
     const renderComponent = () => {
       if(hasJWT()){
@@ -55,9 +119,33 @@ const AddEmployee = () => {
           if(user?.user_type !== 2 ){
               if(user?.id_company !== null){
                   return (
-                      <div className={styles.container} >
-                          <h1>ADD EMPLOYEE</h1>
-                      </div>
+                    <div className={styles.container}>
+                       <h1 className={styles.containerTitle}>Adicionar funcionários à empresa</h1>
+                      <WrapperSurvey estilo={{justifyContent:"flex-start"}}>
+                        <div className={styles.wrapperAdd}>
+                          <h1 className={styles.titleInput}>Email do funcionário</h1>
+                          <form className={styles.inputAddDiv}>
+                            <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.formInput} type='text' placeholder='Email'/>
+                            { loading ? <Loading width={"30px"} height={"30px"} type={"spin"} color={"#7AA174"}/> : <div onClick={handleAddEmployee} className={styles.addEmployee}> <FontAwesomeIcon className={styles.iconButton} icon={faPlus} /></div>}
+                          </form>
+                        </div>
+                        <div className={styles.listEmployee}>
+                          <h1 className={styles.titleInput}>Lista de funcionários cadastrados</h1>
+                          {
+                            employee?.map((item) => {
+                              return(
+                                <div key={item.id} className={styles.employee}>
+                                  <div className={styles.employeeSubDiv}>
+                                    <label className={styles.employeeName}>{item?.name} - {item?.email}</label>
+                                    {item.id === user?.id ? <FontAwesomeIcon className={styles.iconButtonManager} icon={faUser} /> : <FontAwesomeIcon onClick={() => handleRemoveEmployee(item.email)} className={styles.iconButtonEmployee} icon={faTrash} />}
+                                  </div>
+                               </div>
+                              )
+                            })
+                          }
+                        </div>
+                      </WrapperSurvey>
+                    </div>
                   )
               }else{
                   return <IncluirEmpresa texto="Cadastre sua empresa para adicionar funcionários!" temBotao={true}/>

@@ -18,7 +18,7 @@ import { jwtDecode } from "jwt-decode";
 
 const AddCompany = () => {
 
-    const {user, setUser} = useToken()
+    const {user, setUser, setCompany, setSurvey} = useToken()
     const router = useRouter();
     let token = localStorage.getItem('token')
 
@@ -51,12 +51,16 @@ const AddCompany = () => {
         const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
         setUser(res.data)
         
+        if(res.data.id_company !== null){
+          router.push('/')
+        }
       }
   
       getUser()
     }
     },[token])
 
+    const [loading, setLoading] = useState(false);
     const [etapa, setEtapa] = useState(0);
     const [formValues, setFormValues] = useState({})
     const refRadio = useRef(null)
@@ -69,6 +73,32 @@ const AddCompany = () => {
       const [pais, setPais] = useState("")
       const [funcionarios, setFuncionarios] = useState("")
       const [indicador, setIndicador] = useState("")
+      let valoresPesquisa = {
+        id_company:0,
+        name: "Relatório de diagnóstico ESG",
+        ambiental: 0,
+        social: 0,
+        governamental: 0,
+        total_geral: 0,
+        total_estrategico:0,
+        total_planejamento: 0,
+        total_controle: 0,
+        total_acao: 0,
+        ambiental_estrategico:0,
+        ambiental_planejamento: 0,
+        ambiental_controle: 0,
+        ambiental_acao: 0,
+        social_estrategico:0,
+        social_planejamento: 0,
+        social_controle: 0,
+        social_acao: 0,
+        governamental_estrategico:0,
+        governamental_planejamento: 0,
+        governamental_controle: 0,
+        governamental_acao: 0,
+
+
+      }
 
     //#endregion
 
@@ -125,6 +155,7 @@ const AddCompany = () => {
             behavior: "smooth",
             block: "start"
           })
+
           return setEtapa(etapa + 1)
         }else{
           return notifyWarn("Responda todas as perguntas para passar para a próxima etapa!")
@@ -175,56 +206,195 @@ const AddCompany = () => {
       }
     }
 
+    const calculoBasicoCategoria = (inicio, final) => {
+      let soma = 0;
+      let qtyPerguntas = 0;
+      for(let i = inicio; i <= final; i++){
+        soma += parseFloat(formValues[i])
+        qtyPerguntas ++;
+      }
+      const totalCem = soma * 100;
+
+      const valorFinal = totalCem / qtyPerguntas;
+
+      return valorFinal.toFixed(1)
+
+    }
+
+    const calculoAvancadoCategoria = (inicioUm, finalUm, inicioDois, finalDois, inicioTres, finalTres) => {
+      let soma = 0;
+      let qtyPerguntas = 0;
+      for(let i = inicioUm; i <= finalUm; i++){
+        soma += parseFloat(formValues[i])
+        qtyPerguntas ++;
+      }
+      for(let i = inicioDois; i <= finalDois; i++){
+        soma += parseFloat(formValues[i])
+        qtyPerguntas ++;
+      }
+      for(let i = inicioTres; i <= finalTres; i++){
+        soma += parseFloat(formValues[i])
+        qtyPerguntas ++;
+      }
+      const totalCem = soma * 100;
+
+      const valorFinal = totalCem / qtyPerguntas;
+
+      return valorFinal.toFixed(1)
+
+    }
+
+    const createCompanySurvey = async () => {
+
+      if(Object.keys(formValues).length !== 48){
+        return notifyWarn("Responda todas as perguntas para finalizar o questionário!")
+      }else{
+
+        // PEGA OS VALORES DA PESQUISA
+
+        valoresPesquisa.ambiental_estrategico = calculoBasicoCategoria(1,4)
+        valoresPesquisa.ambiental_planejamento = calculoBasicoCategoria(5,8)
+        valoresPesquisa.ambiental_controle = calculoBasicoCategoria(9,12)
+        valoresPesquisa.ambiental_acao = calculoBasicoCategoria(13,16)
+
+        valoresPesquisa.social_estrategico = calculoBasicoCategoria(17,20)
+        valoresPesquisa.social_planejamento = calculoBasicoCategoria(21,24)
+        valoresPesquisa.social_controle = calculoBasicoCategoria(25,28)
+        valoresPesquisa.social_acao = calculoBasicoCategoria(29,32)
+        
+        valoresPesquisa.governamental_estrategico = calculoBasicoCategoria(33,36)
+        valoresPesquisa.governamental_planejamento = calculoBasicoCategoria(37,40)
+        valoresPesquisa.governamental_controle = calculoBasicoCategoria(41,44)
+        valoresPesquisa.governamental_acao = calculoBasicoCategoria(45,48)
+
+        valoresPesquisa.ambiental = calculoBasicoCategoria(1, 16)
+        valoresPesquisa.social = calculoBasicoCategoria(17, 32)
+        valoresPesquisa.governamental = calculoBasicoCategoria(33, 48)
+
+        valoresPesquisa.total_estrategico = calculoAvancadoCategoria(1,4,17,20,33,36)
+        valoresPesquisa.total_planejamento = calculoAvancadoCategoria(5,8,21,24,37,40)
+        valoresPesquisa.total_controle = calculoAvancadoCategoria(9,12,25,28,41,44)
+        valoresPesquisa.total_acao = calculoAvancadoCategoria(13,16,29,32,45,48)
+
+        valoresPesquisa.total_geral = calculoBasicoCategoria(1,48)
+
+        // INSERE A EMPRESA
+
+        try{
+        setLoading(true)
+        const bodyCompany = {
+          name:nome,
+          cnpj:cnpj,
+          branch:industria,
+          country: pais,
+          employee_qty: funcionarios,
+          esg_goal: indicador,
+          user_id_creator: user?.id
+        }
+
+        const company = await api.post('/company/add', bodyCompany, {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        })
+
+        let companyId = company.data.id
+        const bodySurvey = {
+          id_company:companyId,
+          name: valoresPesquisa.name,
+          ambiental_estrategico: valoresPesquisa.ambiental_estrategico,
+          ambiental_planejamento: valoresPesquisa.ambiental_planejamento,
+          ambiental_controle: valoresPesquisa.ambiental_controle,
+          ambiental_acao: valoresPesquisa.ambiental_acao,
+          social_estrategico: valoresPesquisa.social_estrategico,
+          social_planejamento: valoresPesquisa.social_planejamento,
+          social_controle: valoresPesquisa.social_controle,
+          social_acao: valoresPesquisa.social_acao,
+          governamental_estrategico: valoresPesquisa.governamental_estrategico,
+          governamental_planejamento: valoresPesquisa.governamental_planejamento,
+          governamental_controle: valoresPesquisa.governamental_controle,
+          governamental_acao: valoresPesquisa.governamental_acao,
+          ambiental: valoresPesquisa.ambiental,
+          social: valoresPesquisa.social,
+          governamental: valoresPesquisa.governamental,
+          total_estrategico: valoresPesquisa.total_estrategico,
+          total_planejamento: valoresPesquisa.total_planejamento,
+          total_controle: valoresPesquisa.total_controle,
+          total_acao: valoresPesquisa.total_acao,
+          total_geral: valoresPesquisa.total_geral,
+
+        }
+        
+        const survey = await api.post('/survey/add', bodySurvey, {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        })
+
+        setCompany(company.data)
+        setSurvey(survey.data)
+
+
+      }catch(err){
+        notifyError("Erro ao cadastrar o relatório de diagnóstico ESG!")
+      }finally{
+        setLoading(false);
+      }
+
+      }
+
+    }
+
     const devBotao = () => {
       setFormValues({
-    r1: 0,
-    r2: 0.25,
-    r3: 0.5,
-    r4: 0.75,
-    r5: 1,
-    r6: 0,
-    r7: 0.25,
-    r8: 0.5,
-    r9: 0.75,
-    r10: 1,
-    r11: 0,
-    r12: 0.25,
-    r13: 0.5,
-    r14: 0.75,
-    r15: 1,
-    r16: 0,
-    r17: 0.25,
-    r18: 0.5,
-    r19: 0.75,
-    r20: 1,
-    r21: 0,
-    r22: 0.25,
-    r23: 0.5,
-    r24: 0.75,
-    r25: 1,
-    r26: 0,
-    r27: 0.25,
-    r28: 0.5,
-    r29: 0.75,
-    r30: 1,
-    r31: 0,
-    r32: 0.25,
-    r33: 0.5,
-    r34: 0.75,
-    r35: 1,
-    r36: 0,
-    r37: 0.25,
-    r38: 0.5,
-    r39: 0.75,
-    r40: 1,
-    r41: 0,
-    r42: 0.25,
-    r43: 0.5,
-    r44: 0.75,
-    r45: 1,
-    r46: 0,
-    r47: 0.25,
-    r48: 0.5
+    1: 0,
+    2: 0.25,
+    3: 0.5,
+    4: 0.75,
+    5: 1,
+    6: 0,
+    7: 0.25,
+    8: 0.5,
+    9: 0.75,
+    10: 1,
+    11: 0,
+    12: 0.25,
+    13: 0.5,
+    14: 0.75,
+    15: 1,
+    16: 0,
+    17: 0.25,
+    18: 0.5,
+    19: 0.75,
+    20: 1,
+    21: 0,
+    22: 0.25,
+    23: 0.5,
+    24: 0.75,
+    25: 1,
+    26: 0,
+    27: 0.25,
+    28: 0.5,
+    29: 0.75,
+    30: 1,
+    31: 0,
+    32: 0.25,
+    33: 0.5,
+    34: 0.75,
+    35: 1,
+    36: 0,
+    37: 0.25,
+    38: 0.5,
+    39: 0.75,
+    40: 1,
+    41: 0,
+    42: 0.25,
+    43: 0.5,
+    44: 0.75,
+    45: 1,
+    46: 0,
+    47: 0.25,
+    48: 0.5
 })
 console.log(formValues)
     }
@@ -534,8 +704,11 @@ console.log(formValues)
                       <Button style={{backgroundColor:"#C0C0C0"}} click={() => setEtapa(etapa - 1)} text={'Voltar'}/>
                     </div>
                     <div className={styles.wrapperButton}>
-                      <Button click={() => Object.keys(formValues).length ===48 ? console.log("Acabou") : console.log("Preencha o resto")} text={'Finalizar questionário'}/>
-                    </div>
+                      { !loading ?
+                        <Button disable={loading === false ? false : true} click={createCompanySurvey}>Finalizar questionário</Button>
+                       :<div className={styles.loadingDiv}><Loading width={"50%"} height={"50%"} type={"spin"} color={"#7AA174"}/></div>
+                       }
+                    </div> 
                   </div>
               </WrapperSurvey>
               <div className={styles.barraProgresso}>
