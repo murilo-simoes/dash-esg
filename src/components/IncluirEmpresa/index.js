@@ -7,14 +7,14 @@ const IncluirEmpresa = ({texto, temBotao}) => {
     const router = useRouter()
     
     return ( 
-        <div className={styles.container}>
+        <>
             <div className={styles.titleWrapper}>
                 <h1 className={styles.title}>{texto}</h1>
             </div>
             <div style={{display: temBotao === true ? "flex" : "none"}} hidden={temBotao === true ? false : true} onClick={() => router.push('/addCompany')} className={styles.buttonWrapper}>
                 <FontAwesomeIcon className={styles.iconButton} icon={faPlus} />
             </div>
-         </div>
+         </>
      );
 }
  

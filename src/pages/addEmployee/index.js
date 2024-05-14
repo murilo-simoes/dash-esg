@@ -19,6 +19,7 @@ const AddEmployee = () => {
     const [email, setEmail] = useState("");
     const [employee, setEmployee] = useState();
     const [loading, setLoading] = useState(false);
+    const [loadingEmployee, setLoadingEmployee] = useState(false);
     const notifyError = (text) => toast.error(text);
     const notifySuccess = (text) => toast.success(text);
     const notifyWarn = (text) => toast.warn(text);
@@ -40,12 +41,19 @@ const AddEmployee = () => {
     }
 
     const handleFetchEmployee = async (data) => {
-      const config = {
-        headers: { 'Authorization': `Bearer ${token}` }
-    };
-      const com = await api.post(`/user/findEmployees?id_company=${data}`,null, config)
-
-      setEmployee(com.data)
+      try{
+        setLoadingEmployee(true)
+          const config = {
+            headers: { 'Authorization': `Bearer ${token}` }
+      };
+        const com = await api.post(`/user/findEmployees?id_company=${data}`,null, config)
+        
+        setEmployee(com.data)
+    }catch(err){
+      notifyError("Erro ao carregar os funcionários")
+    }finally{
+      setLoadingEmployee(false)
+    }
     }
 
     useEffect(() => {
@@ -132,6 +140,9 @@ const AddEmployee = () => {
                         <div className={styles.listEmployee}>
                           <h1 className={styles.titleInput}>Lista de funcionários cadastrados</h1>
                           {
+                            loadingEmployee ?
+                            <Loading width={"25px"} height={"25px"} type={"spin"} color={"#7AA174"}/>
+                            :
                             employee?.map((item) => {
                               return(
                                 <div key={item.id} className={styles.employee}>
@@ -159,8 +170,8 @@ const AddEmployee = () => {
               <Loading 
               type="spin" 
               color="#7AA174"
-              width={"5%"}
-              height={"5%"}
+              width={"60px"}
+              height={"60px"}
               />
             </div>
           )

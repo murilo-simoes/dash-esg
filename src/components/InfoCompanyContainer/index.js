@@ -133,7 +133,7 @@ const InfoCompanyContainer = ({tipoForm}) => {
                 <Button style={{backgroundColor:"#ab0404", boxShadow:"0px 4px 15px 0px #8d0303"}} click={onOpenModal}>Apagar empresa</Button>
             </div> : ""}
           </div>
-            : <Loading width={"10%"} height={"10%"} type={"spin"} color={"#7AA174"}/>}
+            : <Loading width={"7%"} height={"7%"} type={"spin"} color={"#7AA174"}/>}
         </div>
      )
 }

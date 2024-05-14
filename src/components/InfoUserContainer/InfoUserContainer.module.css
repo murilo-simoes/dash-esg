@@ -7,6 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 450px;
 }
 
 .wrapperInputs{
@@ -107,5 +108,12 @@
     box-shadow: 0px 4px 15px 0px #7AA174;
   
     outline: none;
+}
+
+@media screen and (min-width:1919px) {
+    .wrapper{
+        min-height: 600px;
+        max-height: 600px;
+    }
 }
 

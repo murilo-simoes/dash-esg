@@ -11,6 +11,7 @@
   padding-top: 3rem;
   padding-bottom: 3rem;
   max-height:450px ;
+  min-height:450px ;
 }
 
 .wrapperInputs {
@@ -124,6 +125,13 @@
   }
   .divCreated{
     margin-bottom: 1rem;
+  }
+}
+
+@media screen and (min-width:1919px) {
+  .wrapper{
+      min-height: 600px;
+      max-height: 600px;
   }
 }
 

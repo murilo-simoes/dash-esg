@@ -15,6 +15,8 @@ export default function Home() {
 
   const router = useRouter();
   const {user, setUser} = useToken()
+  const [loading, setLoading] = useState(false)
+  const notifyError = (text) => toast.error(text)
   let token;
 
   function hasJWT() {
@@ -34,37 +36,48 @@ export default function Home() {
 
   useEffect(() => {
     if(hasJWT()){
+    try{
+      setLoading(true)
+      const getUser = async() => {
 
-    const getUser = async() => {
+      const config = {
+          headers: { 'Authorization': `Bearer ${token}` }
+      };
+      const decodeToken = jwtDecode(token)
 
-    const config = {
-        headers: { 'Authorization': `Bearer ${token}` }
-    };
-    const decodeToken = jwtDecode(token)
+        const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
+        setUser(res.data)
+        
+      }
 
-      const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
-      setUser(res.data)
-      
+      getUser()
+
+    }catch(err){
+      notifyError("Erro ao pegar as informações do usuário!")
+    }finally{
+      setLoading(false)
     }
-
-    getUser()
   }
   },[token])
 
   
   const renderComponent = () => {
     if(hasJWT()){
-      if(user?.id_company !== null){
-        
-        return(
-        <div>
-          <h1>DASHBOARD</h1>
-        </div>
-        )
-      }else if(user?.user_type !== 2){
-        return <IncluirEmpresa texto="Crie seu relatório de diagnóstico ESG cadastrando a sua empresa!" temBotao={true}/>
+      if(loading){
+        return <Loading type="spin" color="#7AA174" width={"60px"} height={"60px"} />
       }else{
-        return <IncluirEmpresa texto="Quando for atribuido a uma empresa, o dashboard aparecerá aqui!" temBotao={false}/>
+        if(user?.id_company !== null){
+          
+          return(
+          <div>
+            <h1>DASHBOARD</h1>
+          </div>
+          )
+        }else if(user?.user_type !== 2){
+          return <IncluirEmpresa texto="Crie seu relatório de diagnóstico ESG cadastrando a sua empresa!" temBotao={true}/>
+        }else{
+          return <IncluirEmpresa texto="Quando for atribuido a uma empresa, o dashboard aparecerá aqui!" temBotao={false}/>
+        }
       }
     }else{
       router.push('/login')
@@ -72,8 +85,10 @@ export default function Home() {
   }
 
   return (
-    <>
-      {renderComponent()}
-    </>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        {renderComponent()}
+      </div>
+    </div>
   );
 }
