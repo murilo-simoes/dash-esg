@@ -82,8 +82,8 @@ const Profile = () => {
           <Loading 
           type="spin" 
           color="#7AA174"
-          width={"5%"}
-          height={"5%"}
+          width={"3%"}
+          height={"3%"}
           />
           </div>  
         )

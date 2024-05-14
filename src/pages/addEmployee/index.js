@@ -159,10 +159,14 @@ const AddEmployee = () => {
                     </div>
                   )
               }else{
-                  return <IncluirEmpresa texto="Cadastre sua empresa para adicionar funcionários!" temBotao={true}/>
+                  return <div style={{width:"100%", height:"100dvh", display:"flex", justifyContent:"center", alignItems:"center"}}>
+                          <IncluirEmpresa texto="Cadastre sua empresa para adicionar funcionários!" temBotao={true}/>
+                        </div>
               }
         }else{
-          return <IncluirEmpresa texto="Você não tem autorização para incluir funcionarios!" temBotao={false}/>
+          return <div style={{width:"100%", height:"100dvh", display:"flex", justifyContent:"center", alignItems:"center"}}>
+                   <IncluirEmpresa texto="Você não tem autorização para incluir funcionarios!" temBotao={false}/>
+                  </div> 
         }
         }else{
           return (
