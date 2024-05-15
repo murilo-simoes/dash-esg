@@ -81,14 +81,14 @@ export default function Home() {
         data: [survey?.ambiental, survey?.social, survey?.governamental],
         label:'%',
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
           'rgba(255, 206, 86, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
+          'rgba(75, 192, 192, 1)',
           'rgba(255, 206, 86, 1)',
+          'rgba(255, 99, 132, 1)',
         ],
         borderWidth: 1,
       },
@@ -111,9 +111,17 @@ export default function Home() {
           </div>
           )
         }else if(user?.user_type !== 2){
-          return <IncluirEmpresa texto="Crie seu relatório de diagnóstico ESG cadastrando a sua empresa!" temBotao={true}/>
+          return (
+            <div style={{width:"100%", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+                <IncluirEmpresa texto="Crie seu relatório de diagnóstico ESG cadastrando a sua empresa!" temBotao={true}/>
+            </div>
+           )
         }else{
-          return <IncluirEmpresa texto="Quando for atribuido a uma empresa, o dashboard aparecerá aqui!" temBotao={false}/>
+          return (
+            <div style={{width:"100%",  display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+                <IncluirEmpresa texto="Quando for atribuido a uma empresa, o dashboard aparecerá aqui!" temBotao={false}/>
+            </div>
+           )
         }
       }
     }else{

@@ -15,6 +15,7 @@ const InfoCompanyContainer = ({tipoForm}) => {
     let token = localStorage.getItem('token')
 
     const [loading, setLoading] = useState(true);
+    const [loadingApagar, setLoadingApagar] = useState(false)
     const [company, setCompany] = useState();
     const [open, setOpen] = useState(false);
     const notifySuccess = (text) => toast.success(text);
@@ -63,7 +64,7 @@ const InfoCompanyContainer = ({tipoForm}) => {
 
     const handleDeleteCompany = async () => {
         try{
-         
+            setLoadingApagar(true)
             const res = await api.post(`/company/delete?id=${company?.id}`, null, {
                 headers: {
                     Authorization:`Bearer ${token}`
@@ -74,6 +75,8 @@ const InfoCompanyContainer = ({tipoForm}) => {
             window.location.reload() 
         }catch(err){
             notifyError("Não foi possível deletar a empresa!")
+        }finally{
+            setLoadingApagar(false)
         }
         
         onCloseModal()
@@ -87,11 +90,11 @@ const InfoCompanyContainer = ({tipoForm}) => {
                         }} 
                     open={open} onClose={onCloseModal} center>
                 <div style={{width:"90%", display:"flex", justifyContent:"flex-start", alignItems:"flex-start", flexDirection:"column"}}>
-                    <h1 style={{fontSize:"1.2rem", marginBottom:"1rem"}}>Essa ação irá remover todos os funcionários da empresa e apagar o relatório de diagnóstico ESG!</h1>
+                    <h1 style={{fontSize:"1.2rem", marginBottom:"1rem"}}>Essa ação irá remover todos os funcionários da empresa e apagará o relatório de diagnóstico ESG!</h1>
                     <h1 style={{marginBottom:"3rem", fontSize:"1.2rem"}}>Tem certeza que deseja apagar a empresa?</h1>
                     <div style={{width:"100%",display:"flex", justifyContent:"flex-start", alignItems:"flex-start"}}>
                         <Button style={{backgroundColor:"#C0C0C0", boxShadow:"0px 4px 15px 0px #C0C0C0"}} click={onCloseModal}>Cancelar</Button>
-                        <Button style={{backgroundColor:"#ab0404", boxShadow:"0px 4px 15px 0px #8d0303", marginLeft:"1rem"}} click={handleDeleteCompany}>Apagar empresa</Button>
+                        <Button style={{backgroundColor:"#ab0404", boxShadow:"0px 4px 15px 0px #ac0505", marginLeft:"1rem"}} click={handleDeleteCompany}>{loadingApagar ? <Loading width={"30px"} height={"30px"} type={"spin"} color={"#c43030"}/> : "Apagar empresa"}</Button>
                     </div>
                 </div>
              </Modal>

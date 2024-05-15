@@ -73,6 +73,8 @@ const AddCompany = () => {
       const [pais, setPais] = useState("")
       const [funcionarios, setFuncionarios] = useState("")
       const [indicador, setIndicador] = useState("")
+      const valores = [1, 0.75, 0.5, 0.25, 0]
+
       let valoresPesquisa = {
         id_company:0,
         name: "Relatório de diagnóstico ESG",
@@ -334,6 +336,9 @@ const AddCompany = () => {
         setCompany(company.data)
         setSurvey(survey.data)
 
+        notifySuccess("Relatório criado com sucesso!")
+        router.push('/')
+        
 
       }catch(err){
         notifyError("Erro ao cadastrar o relatório de diagnóstico ESG!")
@@ -345,56 +350,62 @@ const AddCompany = () => {
 
     }
 
+
+    function pegarNumeroAleatorio(array) {
+      const indiceAleatorio = Math.floor(Math.random() * array.length);
+      return array[indiceAleatorio];
+    }
+
     const devBotao = () => {
       setFormValues({
-    1: 0,
-    2: 0.25,
-    3: 0.5,
-    4: 0.75,
-    5: 1,
-    6: 0,
-    7: 0.25,
-    8: 0.5,
-    9: 0.75,
-    10: 1,
-    11: 0,
-    12: 0.25,
-    13: 0.5,
-    14: 0.75,
-    15: 1,
-    16: 0,
-    17: 0.25,
-    18: 0.5,
-    19: 0.75,
-    20: 1,
-    21: 0,
-    22: 0.25,
-    23: 0.5,
-    24: 0.75,
-    25: 1,
-    26: 0,
-    27: 0.25,
-    28: 0.5,
-    29: 0.75,
-    30: 1,
-    31: 0,
-    32: 0.25,
-    33: 0.5,
-    34: 0.75,
-    35: 1,
-    36: 0,
-    37: 0.25,
-    38: 0.5,
-    39: 0.75,
-    40: 1,
-    41: 0,
-    42: 0.25,
-    43: 0.5,
-    44: 0.75,
-    45: 1,
-    46: 0,
-    47: 0.25,
-    48: 0.5
+    1:pegarNumeroAleatorio(valores),
+    2:pegarNumeroAleatorio(valores),
+    3:pegarNumeroAleatorio(valores),
+    4:pegarNumeroAleatorio(valores),
+    5:pegarNumeroAleatorio(valores),
+    6:pegarNumeroAleatorio(valores),
+    7:pegarNumeroAleatorio(valores),
+    8:pegarNumeroAleatorio(valores),
+    9:pegarNumeroAleatorio(valores),
+    10:pegarNumeroAleatorio(valores),
+    11:pegarNumeroAleatorio(valores),
+    12:pegarNumeroAleatorio(valores),
+    13:pegarNumeroAleatorio(valores),
+    14:pegarNumeroAleatorio(valores),
+    15:pegarNumeroAleatorio(valores),
+    16:pegarNumeroAleatorio(valores),
+    17:pegarNumeroAleatorio(valores),
+    18:pegarNumeroAleatorio(valores),
+    19:pegarNumeroAleatorio(valores),
+    20:pegarNumeroAleatorio(valores),
+    21:pegarNumeroAleatorio(valores),
+    22:pegarNumeroAleatorio(valores),
+    23:pegarNumeroAleatorio(valores),
+    24:pegarNumeroAleatorio(valores),
+    25:pegarNumeroAleatorio(valores),
+    26:pegarNumeroAleatorio(valores),
+    27:pegarNumeroAleatorio(valores),
+    28:pegarNumeroAleatorio(valores),
+    29:pegarNumeroAleatorio(valores),
+    30:pegarNumeroAleatorio(valores),
+    31:pegarNumeroAleatorio(valores),
+    32:pegarNumeroAleatorio(valores),
+    33:pegarNumeroAleatorio(valores),
+    34:pegarNumeroAleatorio(valores),
+    35:pegarNumeroAleatorio(valores),
+    36:pegarNumeroAleatorio(valores),
+    37:pegarNumeroAleatorio(valores),
+    38:pegarNumeroAleatorio(valores),
+    39:pegarNumeroAleatorio(valores),
+    40:pegarNumeroAleatorio(valores),
+    41:pegarNumeroAleatorio(valores),
+    42:pegarNumeroAleatorio(valores),
+    43:pegarNumeroAleatorio(valores),
+    44:pegarNumeroAleatorio(valores),
+    45:pegarNumeroAleatorio(valores),
+    46:pegarNumeroAleatorio(valores),
+    47:pegarNumeroAleatorio(valores),
+    48:pegarNumeroAleatorio(valores)
 })
 console.log(formValues)
     }
