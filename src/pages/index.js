@@ -8,15 +8,25 @@ import { toast } from "react-toastify";
 import { api } from "@/api/axios";
 import { useToken } from "@/context/TokenContext";
 import { jwtDecode } from 'jwt-decode' // import dependency
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS,
+                  ArcElement, 
+                  Tooltip, 
+                  Legend, 
+                  Title,
+                  CategoryScale,
+                  LinearScale,
+                  BarElement, } from "chart.js";
+import { Pie, Bar} from "react-chartjs-2";
+import { Grid } from 'gridjs-react';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+
+ChartJS.register(ArcElement, Tooltip, Legend, Title, CategoryScale, LinearScale, BarElement);
 
 export default function Home() {
 
   const router = useRouter();
   const {user, setUser, company, setCompany, survey, setSurvey} = useToken()
+
   const [loading, setLoading] = useState(false)
   const notifyError = (text) => toast.error(text)
   let token;
@@ -73,12 +83,91 @@ export default function Home() {
   }
   },[token])
 
+
+
+  const calcPorcentagemEsgCompany = (i) => {
+    const total = survey?.ambiental + survey?.social + survey?.governamental;
+    let ambiental = ((survey?.ambiental / total) * 100).toFixed(1)
+    let social = ((survey?.social / total) * 100).toFixed(1)
+    let governamental = ((survey?.governamental / total) * 100).toFixed(1)
+
+    if(i === 1){
+      return ambiental
+    }else if(i === 2){
+      return social
+    }else{
+      return governamental
+    }
+  }
+
+  const optionsBar = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display:true,
+        position: "top",  
+        labels:{
+          font:{
+            size:15
+          }
+        }  
+      },
+      title: {
+        display: true,
+        text: 'Visões da empresa',
+        font: {
+          size: 20,
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+  
+  const labels = ['Estratégico', 'Planejamento', 'Controle', 'Ação'];
+  const arrayAmbiental = [survey?.ambiental_estrategico, survey?.ambiental_planejamento, survey?.ambiental_controle, survey?.ambiental_acao]
+  const arraySocial = [survey?.social_estrategico, survey?.social_planejamento, survey?.social_controle, survey?.social_acao]
+  const arrayGovernamental = [survey?.governamental_estrategico, survey?.governamental_planejamento, survey?.governamental_controle, survey?.governamental_acao]
+
+  const dataBar = {
+    labels,
+
+    datasets: [
+      {
+        
+        label: 'Ambiental %',
+        data: arrayAmbiental.map(item => item),
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Social %',
+        data: arraySocial.map(item => item),
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Governamental %',
+        data: arrayGovernamental.map(item => item),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      },
+    ],
+  };
+
   const data = {
-    labels: ['Ambiental', 'Social', 'Governamental'],
+    labels: ['Ambiental %', 'Social %', 'Governamental %'],
+
     datasets: [
       {
         label: 'ESG',
-        data: [survey?.ambiental, survey?.social, survey?.governamental],
+        data: [calcPorcentagemEsgCompany(1), calcPorcentagemEsgCompany(2), calcPorcentagemEsgCompany(3)],
         label:'%',
         backgroundColor: [
           'rgba(75, 192, 192, 0.2)',
@@ -100,27 +189,85 @@ export default function Home() {
       if(loading){
         return <Loading type="spin" color="#7AA174" width={"60px"} height={"60px"} />
       }else{
-        if(user?.id_company !== null){
-          
-          return(
-          <div>
-            {loading ? 
-            <Loading type="spin" color="#7AA174" width={"60px"} height={"60px"} />
-            :
-            <Pie data={data} />}
-          </div>
-          )
-        }else if(user?.user_type !== 2){
+
+        if(user?.user_type !== 2 && user?.id_company === null){
           return (
-            <div style={{width:"100%", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+            <div style={{width:"100%", position:"absolute", top:"0", bottom:"0", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
                 <IncluirEmpresa texto="Crie seu relatório de diagnóstico ESG cadastrando a sua empresa!" temBotao={true}/>
             </div>
            )
+        }else if(user?.id_company !== null){
+          
+          return(
+          <div className={styles.containerDashboard}>
+            {loading ? 
+            <Loading type="spin" color="#7AA174" width={"60px"} height={"60px"} />
+            :
+            <>
+            <div className={styles.graficosColunaUm}>
+              <div className={styles.graficoPizza}>
+                <Pie data={data}
+                options={{
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: "Divisão ESG da empresa",
+                      align: "center",
+                   
+                      font: {
+                        size: 20,
+                      }
+                    },
+                    
+                    legend: {
+                      display: true,
+                      position: "top",
+                    
+                      labels:{
+                        font:{
+                          size:15
+                        },
+                      
+                      },
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  },
+                }}
+                />
+              </div>
+              <div className={styles.graficoBarra}>
+                <Bar options={optionsBar} data={dataBar}  />
+
+              </div>
+            </div>
+            <div className={styles.graficosColunaDois}>
+                <div className={styles.gridEsg}>
+                <Grid
+                    data={[
+                      ["Ambiental", survey?.ambiental_estrategico + "%", survey?.ambiental_planejamento + "%", survey?.ambiental_controle + "%", survey?.ambiental_acao + "%", survey?.ambiental + "%"],
+                      ["Social", survey?.social_estrategico + "%", survey?.social_planejamento + "%", survey?.social_controle + "%", survey?.social_acao + "%", survey?.social + "%"],
+                      ["Governamental", survey?.governamental_estrategico + "%", survey?.governamental_planejamento + "%", survey?.governamental_controle + "%", survey?.governamental_acao + "%", survey?.governamental + "%"],
+                      ["Total Geral", survey?.total_estrategico + "%", survey?.total_planejamento + "%", survey?.total_controle + "%", survey?.total_acao + "%", survey?.total_geral + "%"]
+                    ]}
+                    columns={['ESG/VISÕES', 'Estratégico', "Planejamento", "Controle", "Ação", "Total Geral"]}
+                    search={false}
+                    pagination={false}
+                  />
+                </div>
+            </div>
+            </>
+              }
+          </div>
+          )
         }else{
           return (
-            <div style={{width:"100%",  display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
-                <IncluirEmpresa texto="Quando for atribuido a uma empresa, o dashboard aparecerá aqui!" temBotao={false}/>
-            </div>
+              <div style={{width:"100%", position:"absolute", top:"0", bottom:"0", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+                  <IncluirEmpresa texto="Quando for atribuido a uma empresa, o dashboard aparecerá aqui!" temBotao={false}/>
+              </div>
            )
         }
       }
