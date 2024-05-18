@@ -16,8 +16,6 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
-    "gridjs": "^6.2.0",
-    "gridjs-react": "^6.1.1",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "next": "14.2.2",
@@ -27,8 +25,10 @@
     "react-input-mask": "^2.0.4",
     "react-loading": "^2.0.3",
     "react-responsive-modal": "^6.4.2",
+    "react-tabulator": "^0.19.0",
     "react-toastify": "^10.0.5",
-    "react-tooltip": "^5.26.3"
+    "react-tooltip": "^5.26.3",
+    "tabulator-tables": "^6.2.1"
   },
   "devDependencies": {
     "eslint": "^8",

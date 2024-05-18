@@ -17,7 +17,9 @@ import { Chart as ChartJS,
                   LinearScale,
                   BarElement, } from "chart.js";
 import { Pie, Bar} from "react-chartjs-2";
-import { Grid } from 'gridjs-react';
+
+import { ReactTabulator } from 'react-tabulator'
+
 
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title, CategoryScale, LinearScale, BarElement);
@@ -161,6 +163,49 @@ export default function Home() {
     ],
   };
 
+  const optionsBar2 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display:true,
+        position: "top",  
+        labels:{
+          font:{
+            size:15
+          }
+        }  
+      },
+      title: {
+        display: true,
+        text: 'Média ESG',
+        font: {
+          size: 20,
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+  
+
+  const labls2 = ['Ambiental', 'Social', 'Governamental', 'Total Geral'];
+  const arrayDataBar2 = [survey?.ambiental, survey?.social, survey?.governamental, survey?.total_geral]
+  const dataBar2 = {
+    labels: ['Ambiental', 'Social', 'Governamental', 'Total Geral'],
+    datasets: [
+      {
+        label: 'Média %',
+        data: arrayDataBar2.map(item => item),
+        backgroundColor: 'rgba(31, 95, 8, 0.2)',
+        borderColor: 'rgba(31, 95, 8, 1)',
+        borderWidth: 1
+      },
+    ],
+  };
+
   const data = {
     labels: ['Ambiental %', 'Social %', 'Governamental %'],
 
@@ -184,6 +229,27 @@ export default function Home() {
     ],
   };
 
+
+  const rows = [
+    { "Category": "Ambiental", "Estrategico": survey?.ambiental_estrategico, "Planejamento": survey?.ambiental_planejamento, "Controle": survey?.ambiental_controle, "Acao": survey?.ambiental_acao, "Total Geral": survey?.ambiental },
+    { "Category": "Social", "Estrategico": survey?.social_estrategico, "Planejamento": survey?.social_planejamento, "Controle": survey?.social_controle, "Acao": survey?.social_acao, "Total Geral": survey?.social },
+    { "Category": "Governamental", "Estrategico": survey?.governamental_estrategico, "Planejamento": survey?.governamental_planejamento, "Controle": survey?.governamental_controle, "Acao": survey?.governamental_acao, "Total Geral": survey?.governamental },
+    { "Category": "Total Geral", "Estrategico": survey?.total_estrategico, "Planejamento": survey?.total_planejamento, "Controle": survey?.total_controle, "Acao": survey?.total_acao, "Total Geral": survey?.total_geral }
+    
+  ];
+  
+
+  const columnsTable = [
+    { title: "ESG/VISÕES", field: "Category", hozAlign: "center", headerSort:false},
+    { title: "Estratégico", field:"Estrategico", hozAlign: "center", headerSort:false},
+    { title: "Planejamento", field:"Planejamento", hozAlign: "center", headerSort:false},
+    { title: "Controle", field:"Controle", hozAlign: "center" , headerSort:false},
+    { title: "Ação", field:"Acao", hozAlign: "center" , headerSort:false},
+    { title: "Total Geral", field:"Total Geral", hozAlign: "center", headerSort:false}
+  ];
+
+  
+
   const renderComponent = () => {
     if(hasJWT()){
       if(loading){
@@ -200,8 +266,10 @@ export default function Home() {
           
           return(
           <div className={styles.containerDashboard}>
-            {loading ? 
-            <Loading type="spin" color="#7AA174" width={"60px"} height={"60px"} />
+            {survey?.ambiental === undefined ? 
+            <div style={{width:"100%", position:"absolute", top:"0", bottom:"0", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+              <Loading type="spin" color="#7AA174" width={"60px"} height={"60px"} />
+            </div>
             :
             <>
             <div className={styles.graficosColunaUm}>
@@ -246,17 +314,14 @@ export default function Home() {
             </div>
             <div className={styles.graficosColunaDois}>
                 <div className={styles.gridEsg}>
-                <Grid
-                    data={[
-                      ["Ambiental", survey?.ambiental_estrategico + "%", survey?.ambiental_planejamento + "%", survey?.ambiental_controle + "%", survey?.ambiental_acao + "%", survey?.ambiental + "%"],
-                      ["Social", survey?.social_estrategico + "%", survey?.social_planejamento + "%", survey?.social_controle + "%", survey?.social_acao + "%", survey?.social + "%"],
-                      ["Governamental", survey?.governamental_estrategico + "%", survey?.governamental_planejamento + "%", survey?.governamental_controle + "%", survey?.governamental_acao + "%", survey?.governamental + "%"],
-                      ["Total Geral", survey?.total_estrategico + "%", survey?.total_planejamento + "%", survey?.total_controle + "%", survey?.total_acao + "%", survey?.total_geral + "%"]
-                    ]}
-                    columns={['ESG/VISÕES', 'Estratégico', "Planejamento", "Controle", "Ação", "Total Geral"]}
-                    search={false}
-                    pagination={false}
+                <ReactTabulator
+                  data={rows}
+                  columns={columnsTable}
+                  layout={"fitData"}
                   />
+                </div>
+                <div className={styles.graficoBarra} >
+                  <Bar options={optionsBar2} data={dataBar2}  style={{marginBottom:"0"}} />
                 </div>
             </div>
             </>

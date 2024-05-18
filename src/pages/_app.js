@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import {TokenProvider, useToken} from '../context/TokenContext'
 import Router from "next/router";
 
+import '../styles/tabulator_bootstrap5.min.css';
+
 export default function App({ Component, pageProps, ...appProps }) {
 
   const [loaded, setLoaded] = useState(false)

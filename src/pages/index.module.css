@@ -12,15 +12,16 @@
     width: 100%;
     height: 100dvh;
     display: flex;
-    justify-content: center;
     align-items: center;
-
+    overflow: hidden;
+    justify-content: center;
+    
 }
 
 .wrapper{
     width: 90%;
     max-width: 90%;
-    min-width: 90%;
+
     height: 90%;
     min-height: 90%;
     max-height: 90%;
@@ -28,29 +29,30 @@
     border-radius: 24px;
     padding:2rem;
     position: relative;
+    
+
 }
 
 
 /* GRAFICOS */
 
 .containerDashboard{
-    width: 100%;
+    min-width: 100%;
     height: 100%;
     display: flex;
     justify-content:  flex-start;
     align-items: center;
     flex-direction: column;
-    
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 .graficosColunaUm{
     display: flex;
-    align-items: flex-start;
     width: 100%;
     height: 50%;   
 }
 .graficosColunaDois{
     display: flex;
-    align-items: flex-start;
     width: 100%;
     height: 50%;  
 }
@@ -60,14 +62,30 @@
     height: 300px;
 }
 .graficoBarra{
-    width: 600px;
+    width:600px;
     margin-left: 5rem;
 }
 
 .gridEsg{
     height: 100%;
-    width: 100%;
     display: flex;
     align-items: center;
 }
 
+
+@media screen and (max-width: 1300px) {
+    .graficoBarra{
+        width: 450px;
+        margin-left: 5rem;
+    }
+    .graficoPizza{
+        width: 260px;
+        height: 260px;
+    }
+    .gridEsg{
+        margin-top: 1rem;
+    }
+    .wrapper{
+        padding: 1rem;
+    }
+}
