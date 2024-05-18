@@ -10,6 +10,7 @@ import { Tooltip } from 'react-tooltip'
 import { api } from '@/api/axios';
 import { useEffect } from 'react';
 import { useToken } from '@/context/TokenContext';
+import Link from 'next/link';
 
 
 const Menu = ({}) => {
@@ -49,9 +50,19 @@ const Menu = ({}) => {
                             <FontAwesomeIcon icon={faAddressCard} className={styles.iconPage}/>
                         </div>
                     </div>
-                    <div data-tooltip-id="tooltipMenuLogout" data-tooltip-content="Deslogar" onClick={handleLogout} className={styles.logout}>
-                        <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.iconPageLogout}/>
-                    </div>
+                       
+                       <div>
+                       
+                            
+                        <Link  style={{ textDecoration:"none", color:"#3b5737", fontWeight:"bold"}} target="_blank" href={"https://sosenchentes.rs.gov.br/inicial"}>
+                            <div data-tooltip-id="tooltipMenu" data-tooltip-content="Ajude" className={styles.pages}>
+                                RS
+                            </div>
+                        </Link>
+                        <div data-tooltip-id="tooltipMenuLogout" data-tooltip-content="Deslogar" onClick={handleLogout} className={styles.logout}>
+                            <FontAwesomeIcon icon={faArrowRightFromBracket} className={styles.iconPageLogout}/>
+                        </div>
+                       </div>
                 </div>
             </div>
      );

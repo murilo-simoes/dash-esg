@@ -61,8 +61,19 @@ export default function Home() {
 
       const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
       setUser(res.data)
+
       
       if(res.data.id_company != null){
+
+        const com = await api.post(`/company/find?id=${res.data.id_company}`, null, {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        })
+
+        setCompany(com.data)
+
+
         const sur = await api.post(`/survey/find?id_company=${res.data.id_company}` ,null,{
           headers:{
               Authorization: `Bearer ${token}`
@@ -194,7 +205,7 @@ export default function Home() {
   const labls2 = ['Ambiental', 'Social', 'Governamental', 'Total Geral'];
   const arrayDataBar2 = [survey?.ambiental, survey?.social, survey?.governamental, survey?.total_geral]
   const dataBar2 = {
-    labels: ['Ambiental', 'Social', 'Governamental', 'Total Geral'],
+    labels: ['Ambiental', 'Social', 'Governamental', 'Média ESG'],
     datasets: [
       {
         label: 'Média %',
@@ -241,13 +252,36 @@ export default function Home() {
 
   const columnsTable = [
     { title: "ESG/VISÕES", field: "Category", hozAlign: "center", headerSort:false},
-    { title: "Estratégico", field:"Estrategico", hozAlign: "center", headerSort:false},
-    { title: "Planejamento", field:"Planejamento", hozAlign: "center", headerSort:false},
-    { title: "Controle", field:"Controle", hozAlign: "center" , headerSort:false},
-    { title: "Ação", field:"Acao", hozAlign: "center" , headerSort:false},
-    { title: "Total Geral", field:"Total Geral", hozAlign: "center", headerSort:false}
+    { title: "Estratégico %", field:"Estrategico", hozAlign: "center", headerSort:false},
+    { title: "Planejamento %", field:"Planejamento", hozAlign: "center", headerSort:false},
+    { title: "Controle %", field:"Controle", hozAlign: "center" , headerSort:false},
+    { title: "Ação %", field:"Acao", hozAlign: "center" , headerSort:false},
+    { title: "Total Geral %", field:"Total Geral", hozAlign: "center", headerSort:false}
   ];
 
+  const calcularMeta = () => {
+    if(company?.esg_goal > survey?.total_geral){
+      return (
+        <div className={styles.indicadorNao}>
+          <h1 style={{fontSize:"1.2rem", fontWeight:"bold", marginBottom:"1rem", whiteSpace:"nowrap"}}>Meta ESG</h1>
+          <h1 style={{fontSize:"1.2rem", fontWeight:"bold", marginBottom:"1rem", whiteSpace:"nowrap"}}>{company?.esg_goal}%</h1>
+          <div className={styles.metaNao}>
+            <h1 style={{whiteSpace:"nowrap"}}>Sua meta ESG não foi alcançada!</h1>
+          </div>
+        </div>
+      )
+    }else if(company?.esg_goal < survey?.total_geral){
+      return (
+        <div className={styles.indicadorSim}>
+          <h1 style={{fontSize:"1.2rem", fontWeight:"bold", marginBottom:"1rem", whiteSpace:"nowrap"}}>Meta ESG</h1>
+          <h1 style={{fontSize:"1.2rem", fontWeight:"bold", marginBottom:"1rem", whiteSpace:"nowrap"}}>{company?.esg_goal}%</h1>
+          <div className={styles.metaSim}>
+            <h1 style={{whiteSpace:"nowrap"}}>Sua meta ESG foi alcançada!</h1>
+          </div>
+        </div>
+      )
+    }
+  }
   
 
   const renderComponent = () => {
@@ -273,6 +307,12 @@ export default function Home() {
             :
             <>
             <div className={styles.graficosColunaUm}>
+              <div className={styles.indicadorBarras}>
+                  {calcularMeta()}
+                <div className={styles.graficoBarra}>
+                  <Bar options={optionsBar} data={dataBar}  />
+                </div>
+              </div>
               <div className={styles.graficoPizza}>
                 <Pie data={data}
                 options={{
@@ -307,10 +347,6 @@ export default function Home() {
                 }}
                 />
               </div>
-              <div className={styles.graficoBarra}>
-                <Bar options={optionsBar} data={dataBar}  />
-
-              </div>
             </div>
             <div className={styles.graficosColunaDois}>
                 <div className={styles.gridEsg}>
@@ -321,7 +357,7 @@ export default function Home() {
                   />
                 </div>
                 <div className={styles.graficoBarra} >
-                  <Bar options={optionsBar2} data={dataBar2}  style={{marginBottom:"0"}} />
+                  <Bar options={optionsBar2} data={dataBar2}  style={{marginLeft:"-1rem"}} />
                 </div>
             </div>
             </>

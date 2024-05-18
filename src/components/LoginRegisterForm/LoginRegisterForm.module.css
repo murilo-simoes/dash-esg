@@ -183,16 +183,16 @@ select.formInput option:checked{
 
    } 
    .formInput{
-        height: 40px;
+        height: 35px;
     }
    .formInputSenha{
-        height: 40px;
+        height: 35px;
     }
     .divInputs{
-        height: 70px;
+        height: 55px;
     }
     .divInputSenha{
-       height: 40px;
+       height: 35px;
    }
    .wrapperInputs{
     padding-top: 1.5rem;

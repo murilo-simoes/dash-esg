@@ -167,7 +167,7 @@ const LoginRegisterForm = ({tipoForm}) => {
                 </div>
             </div>
 
-            <div className={styles.divLabel}>
+            <div className={styles.divLabel} >
                 <div className={styles.divLabel}>
                     <button disabled={ loading === false ? false : true} className={styles.formButton}>
                         { loading === false ? (tipoForm === 1 ? "Entrar" : "Cadastre-se") : <Loading width={"15%"} height={"15%"} type={"spin"} color={"#7AA174"}/>}

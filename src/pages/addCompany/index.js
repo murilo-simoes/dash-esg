@@ -170,11 +170,6 @@ const AddCompany = () => {
         notifyWarn("Preencha todos os campos corretamente!")
         return false
       }
-
-      if(nome.length < 7){
-        notifyWarn("O nome deve conter pelo menos 8 caracteres!")
-        return false
-      }
     
       if(!validarCNPJ(cnpj)){
          notifyWarn("O CNPJ inserido é inválido!")

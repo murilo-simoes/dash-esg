@@ -15,20 +15,22 @@
     align-items: center;
     overflow: hidden;
     justify-content: center;
-    
+    overflow: hidden;
 }
 
 .wrapper{
     width: 90%;
     max-width: 90%;
 
-    height: 90%;
-    min-height: 90%;
-    max-height: 90%;
+    height: 75%;
+    min-height: 75%;
+    max-height: 75%;
     box-shadow: #04040473 0px 8px 24px;
     border-radius: 24px;
-    padding:2rem;
+ 
     position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
     
 
 }
@@ -43,49 +45,114 @@
     justify-content:  flex-start;
     align-items: center;
     flex-direction: column;
-    overflow-x: auto;
-    overflow-y: hidden;
+
 }
 .graficosColunaUm{
     display: flex;
     width: 100%;
-    height: 50%;   
+    height: 50%;
+    align-items: center;   
+    justify-content: center;
+
 }
 .graficosColunaDois{
     display: flex;
     width: 100%;
+    align-items: center;
     height: 50%;  
+    justify-content: center;
 }
 
 .graficoPizza{
     width: 300px;
     height: 300px;
+    margin-left: 5rem;
 }
 .graficoBarra{
     width:600px;
-    margin-left: 5rem;
+    margin-left: 4rem;
+    
 }
 
 .gridEsg{
     height: 100%;
     display: flex;
     align-items: center;
+    margin-top: 3rem;
 }
 
 
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1460px) {
     .graficoBarra{
-        width: 450px;
+        width: 476px;
         margin-left: 5rem;
+        
+   
     }
     .graficoPizza{
-        width: 260px;
-        height: 260px;
+        width: 250px;
+        height: 250px;
+        margin-left: 5rem;
     }
     .gridEsg{
-        margin-top: 1rem;
+        margin-top: 0.5rem;
     }
+
+    .graficosColunaUm{
+        justify-content: flex-start;
+        margin-left: 3rem;
+  
+    }
+    .graficosColunaDois{
+        justify-content: flex-start;
+        margin-left: 3rem;
+
+
+    }
+    
     .wrapper{
-        padding: 1rem;
+        height: 95%;
+        min-height: 95%;
+        max-height: 95%;
     }
+
 }
+
+.indicadorBarras{
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+.indicadorSim{
+    width: auto;
+    color: #fff;
+    background: linear-gradient(180deg, #3d4d40 0%, #6e8671 100%);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 7px 15px;
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.indicadorNao{
+    border-radius: 16px;
+    width: auto;
+    padding: 1.5rem;
+    color: #fff;
+    background: #333333;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, rgb(248, 23, 71), #e19696);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, rgb(248, 23, 71), #e19696); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ 
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 7px 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.meta{
+    font-style: italic;
+}
+

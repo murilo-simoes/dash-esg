@@ -278,8 +278,8 @@ select.formInputDois option:checked{
 
 .radioEsg::before {
     content: "";
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.80rem;
+    height: 0.80rem;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
