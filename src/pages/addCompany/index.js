@@ -77,7 +77,7 @@ const AddCompany = () => {
 
       let valoresPesquisa = {
         id_company:0,
-        name: "Relatório de diagnóstico ESG",
+        name: "Painel de diagnóstico ESG",
         ambiental: 0,
         social: 0,
         governamental: 0,
@@ -414,7 +414,7 @@ console.log(formValues)
         case 0:
             return (
               <>
-                <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
+                <h1 className={styles.containerTitle}>Criar painel de diagnóstico ESG</h1>
                 <WrapperSurvey>
                     <div>
                       <div className={styles.containerTexts}>
@@ -451,7 +451,7 @@ console.log(formValues)
         case 1:        
           return (
             <>
-              <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
+              <h1 className={styles.containerTitle}>Criar painel de diagnóstico ESG</h1>
               <WrapperSurvey>
                   <div style={{display:"flex", flexDirection:"column", height:"auto"}}>
                     <div className={styles.wrapperInputsDois}>
@@ -524,7 +524,7 @@ console.log(formValues)
         case 2:
           return (
             <>
-              <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
+              <h1 className={styles.containerTitle}>Criar painel de diagnóstico ESG</h1>
               <WrapperSurvey>
               { user?.email === "murilorsimoes@gmail.com" ?                     
               <div className={styles.wrapperButton}>
@@ -576,7 +576,7 @@ console.log(formValues)
         case 3:
           return (
             <>
-              <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
+              <h1 className={styles.containerTitle}>Criar painel de diagnóstico ESG</h1>
               <WrapperSurvey>
               <div ref={refRadio}></div>
               {perguntasEtapa2.map((item) => {
@@ -624,7 +624,7 @@ console.log(formValues)
         case 4:
           return (
             <>
-              <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
+              <h1 className={styles.containerTitle}>Criar painel de diagnóstico ESG</h1>
               <WrapperSurvey>
               <div ref={refRadio}></div>
               {perguntasEtapa3.map((item) => {
@@ -673,7 +673,7 @@ console.log(formValues)
         case 5:
           return (
             <>
-              <h1 className={styles.containerTitle}>Criar relatório de diagnóstico ESG</h1>
+              <h1 className={styles.containerTitle}>Criar painel de diagnóstico ESG</h1>
               <WrapperSurvey>
               <div ref={refRadio}></div>
               {perguntasEtapa4.map((item) => {
