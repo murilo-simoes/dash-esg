@@ -132,9 +132,9 @@ const AddEmployee = () => {
                       <WrapperSurvey estilo={{justifyContent:"flex-start"}}>
                         <div className={styles.wrapperAdd}>
                           <h1 className={styles.titleInput}>Email do funcionário</h1>
-                          <form className={styles.inputAddDiv}>
+                          <form onSubmit={handleAddEmployee} className={styles.inputAddDiv}>
                             <input value={email} onChange={(e) => setEmail(e.target.value)} className={styles.formInput} type='text' placeholder='Email'/>
-                            { loading ? <Loading width={"30px"} height={"30px"} type={"spin"} color={"#7AA174"}/> : <div onClick={handleAddEmployee} className={styles.addEmployee}> <FontAwesomeIcon className={styles.iconButton} icon={faPlus} /></div>}
+                            { loading ? <Loading width={"30px"} height={"30px"} type={"spin"} color={"#7AA174"}/> : <div className={styles.addEmployee}> <FontAwesomeIcon className={styles.iconButton} icon={faPlus} /></div>}
                           </form>
                         </div>
                         <div className={styles.listEmployee}>
