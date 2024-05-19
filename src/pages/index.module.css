@@ -22,9 +22,9 @@
     width: 90%;
     max-width: 90%;
 
-    height: 75%;
-    min-height: 75%;
-    max-height: 75%;
+    height: 72%;
+    min-height: 72%;
+    max-height: 72%;
     box-shadow: #04040473 0px 8px 24px;
     border-radius: 24px;
  
@@ -116,6 +116,14 @@
         max-height: 95%;
     }
 
+}
+
+@media screen and (max-width: 800px){
+    .wrapper{
+        height: 75%;
+        min-height: 75%;
+        max-height: 75%;
+    }
 }
 
 .indicadorBarras{

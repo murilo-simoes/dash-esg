@@ -356,8 +356,10 @@ export default function Home() {
                   layout={"fitData"}
                   />
                 </div>
-                <div className={styles.graficoBarra} >
-                  <Bar options={optionsBar2} data={dataBar2}  style={{marginLeft:"-1rem"}} />
+                <div>
+                  <div className={styles.graficoBarra} >
+                    <Bar options={optionsBar2} data={dataBar2}  style={{marginLeft:"-1rem"}} />
+                  </div>
                 </div>
             </div>
             </>
