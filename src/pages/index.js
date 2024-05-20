@@ -270,7 +270,7 @@ export default function Home() {
           </div>
         </div>
       )
-    }else if(company?.esg_goal < survey?.total_geral){
+    }else if(company?.esg_goal <= survey?.total_geral){
       return (
         <div className={styles.indicadorSim}>
           <h1 style={{fontSize:"1.2rem", fontWeight:"bold", marginBottom:"1rem", whiteSpace:"nowrap"}}>Meta ESG</h1>
