@@ -30,6 +30,8 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+	max-width: 1920px;
+	
 	line-height: 1;
 	font-family: "IBM Plex Sans", sans-serif;
 }
