@@ -14,6 +14,7 @@ import questions from '../../mock/perguntas-esg.json'
 import { useToken } from "@/context/TokenContext";
 import { api } from "@/api/axios";
 import { jwtDecode } from "jwt-decode";
+import { isTokenExpired } from "@/functions/isTokenExpired";
 
 
 const AddCompany = () => {
@@ -21,6 +22,12 @@ const AddCompany = () => {
     const {user, setUser, setCompany, setSurvey} = useToken()
     const router = useRouter();
     let token = localStorage.getItem('token')
+    
+    //#region TOASTIFYS
+    const notifySuccess = (text) => toast.success(text);
+    const notifyError = (text) => toast.error(text);
+    const notifyWarn = (text) => toast.warn(text);
+  //#endregion
 
     function hasJWT() {
       let flag = false;
@@ -43,6 +50,13 @@ const AddCompany = () => {
 
       const getUser = async() => {
   
+        if(isTokenExpired(token)){
+          localStorage.removeItem('token')
+          notifyWarn("Sessão expirada! Realize o login novamente!")
+          router.push('/login')
+          return
+        }
+
       const config = {
           headers: { 'Authorization': `Bearer ${token}` }
       };
@@ -104,11 +118,6 @@ const AddCompany = () => {
 
     //#endregion
 
-    //#region TOASTIFYS
-      const notifySuccess = (text) => toast.success(text);
-      const notifyError = (text) => toast.error(text);
-      const notifyWarn = (text) => toast.warn(text);
-    //#endregion
 
 
     const perguntasEtapa1 = questions.etapa1.map(item => {

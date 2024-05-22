@@ -8,11 +8,14 @@ import { api } from "@/api/axios";
 import { useToken } from "@/context/TokenContext";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+import { isTokenExpired } from "@/functions/isTokenExpired";
 
 const Profile = () => {
 
     const router = useRouter();
     const {user, setUser} = useToken();
+    const notifyWarning = (text) => toast.warn(text)
     let token;
 
     function hasJWT() {
@@ -34,6 +37,13 @@ const Profile = () => {
       if(hasJWT()){
       const getUser = async() => {
   
+        if(isTokenExpired(token)){
+          localStorage.removeItem('token')
+          notifyWarning("Sessão expirada! Realize o login novamente!")
+          router.push('/login')
+          return
+        }
+
       const config = {
           headers: { 'Authorization': `Bearer ${token}` }
       };

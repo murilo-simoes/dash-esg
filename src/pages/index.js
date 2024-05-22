@@ -19,6 +19,7 @@ import { Chart as ChartJS,
 import { Pie, Bar} from "react-chartjs-2";
 
 import { ReactTabulator } from 'react-tabulator'
+import { isTokenExpired } from "@/functions/isTokenExpired";
 
 
 
@@ -31,6 +32,7 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false)
   const notifyError = (text) => toast.error(text)
+  const notifyWarning = (text) => toast.warn(text)
   let token;
 
   function hasJWT() {
@@ -54,9 +56,19 @@ export default function Home() {
       const getUser = async() => {
         setLoading(true)
 
+        if(isTokenExpired(token)){
+          
+          localStorage.removeItem('token')
+          notifyWarning("Sessão expirada! Realize o login novamente!")
+          router.push('/login')
+          return
+        }
+
       const config = {
           headers: { 'Authorization': `Bearer ${token}` }
       };
+
+
       const decodeToken = jwtDecode(token)
 
       const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)

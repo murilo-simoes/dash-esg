@@ -11,6 +11,7 @@ import WrapperSurvey from '@/components/WrapperSurvey';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import { isTokenExpired } from '@/functions/isTokenExpired';
 
 const AddEmployee = () => {
   
@@ -61,9 +62,17 @@ const AddEmployee = () => {
       try{
         const getUser = async() => {
     
+          if(isTokenExpired(token)){
+            localStorage.removeItem('token')
+            notifyWarn("Sessão expirada! Realize o login novamente!")
+            router.push('/login')
+            return
+          }
+
         const config = {
             headers: { 'Authorization': `Bearer ${token}` }
         };
+        
         const decodeToken = jwtDecode(token)
     
           const res = await api.post(`/user/find/?id=${decodeToken?.id}`,null, config)
