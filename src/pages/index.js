@@ -305,7 +305,7 @@ export default function Home() {
         if(user?.user_type !== 2 && user?.id_company === null){
           return (
             <div style={{width:"100%", position:"absolute", top:"0", bottom:"0", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
-                <IncluirEmpresa texto="Crie seu painel de diagnóstico ESG cadastrando a sua empresa!" temBotao={true}/>
+                <IncluirEmpresa texto="Crie sua percepção ESG cadastrando a sua empresa!" temBotao={true}/>
             </div>
            )
         }else if(user?.id_company !== null){

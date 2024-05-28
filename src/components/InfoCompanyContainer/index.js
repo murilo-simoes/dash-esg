@@ -90,7 +90,7 @@ const InfoCompanyContainer = ({tipoForm}) => {
                         }} 
                     open={open} onClose={onCloseModal} center>
                 <div style={{width:"90%", display:"flex", justifyContent:"flex-start", alignItems:"flex-start", flexDirection:"column"}}>
-                    <h1 style={{fontSize:"1.2rem", marginBottom:"1rem"}}>Essa ação irá remover todos os funcionários da empresa e apagará o relatório de diagnóstico ESG!</h1>
+                    <h1 style={{fontSize:"1.2rem", marginBottom:"1rem"}}>Essa ação irá remover todos os funcionários da empresa e apagará sua percepção ESG!</h1>
                     <h1 style={{marginBottom:"3rem", fontSize:"1.2rem"}}>Tem certeza que deseja apagar a empresa?</h1>
                     <div style={{width:"100%",display:"flex", justifyContent:"flex-start", alignItems:"flex-start"}}>
                         <Button style={{backgroundColor:"#C0C0C0", boxShadow:"0px 4px 15px 0px #C0C0C0"}} click={onCloseModal}>Cancelar</Button>
