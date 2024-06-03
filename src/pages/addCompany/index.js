@@ -449,7 +449,7 @@ console.log(formValues)
                       <div className={styles.containerTexts}>
                         <h1 className={styles.wrapperTitles}>Qual é o método de avaliação?</h1>
                         <div>
-                          <li style={{marginLeft:"1rem"}} className={styles.wrapperText}>O questionário utiliza a eslaca Likert! Ela é estruturada para proporcionar opções de resposta quantificáveis que tornam a análise dos dados mais fácil!</li>
+                          <li style={{marginLeft:"1rem"}} className={styles.wrapperText}>O questionário utiliza a escala Likert! Ela é estruturada para proporcionar opções de resposta quantificáveis que tornam a análise dos dados mais fácil!</li>
                         </div>
                       </div>
                     </div>
